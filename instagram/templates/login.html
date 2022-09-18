@@ -6,7 +6,7 @@
     <div id="wrapper" class="flex flex-col justify-between h-screen">
 
         <!-- header-->
-        <!-- <div class="bg-white py-4 shadow dark:bg-gray-800">
+        <div class="bg-white py-4 shadow dark:bg-gray-800">
             <div class="max-w-6xl mx-auto">
 
 
@@ -17,24 +17,35 @@
                     </a>
 
                     <div class="capitalize flex font-semibold hidden lg:block my-2 space-x-3 text-center text-sm">
-                        <a href="form-login.html" class="py-3 px-4">Login</a>
-                        <a href="form-register.html" class="bg-pink-500 pink-500 px-6 py-3 rounded-md shadow text-white">Register</a>
+                        <a href="{% url 'post:login' %}" class="py-3 px-4">Login</a>
+                        <a href="{% url 'post:register' %}" class="bg-pink-500 pink-500 px-6 py-3 rounded-md shadow text-white">Register</a>
                     </div>
 
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <!-- Content-->
         <div>
             <div class="lg:p-12 max-w-md max-w-xl lg:my-0 my-12 mx-auto p-6 space-y-">
                 <h1 class="lg:text-3xl text-xl font-semibold  mb-6"> Log in</h1>
                 <p class="mb-2 text-black text-lg"> Email or Username</p>
+                
+                {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                    {{message}}
+                  </div>
+                {% endfor %}
+                    
                 <form method="POST" action="">
                     {% csrf_token %}
-                    {{form}}
-                    <input type="text" placeholder="example@mydomain.com" class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
-                    <input type="text" placeholder="***********" class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
+                    
+                   
+                    <input type="text" name="username" placeholder="example@mydomain.com" class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
+                    <input type="password" name="password" placeholder="***********" class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
+                     {% if request.GET.next %}
+                    <input type="hidden" name="next" value="{{request.GET.next}}" >
+                    {% endif %}
                     <div class="flex justify-between my-4">
                         <div class="checkbox">
                             <input type="checkbox" id="chekcbox1" checked>
@@ -44,7 +55,7 @@
                     </div>
                     <button type="submit" class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full">Login</button>
                     <div class="text-center mt-5 space-x-2">
-                        <p class="text-base"> Not registered? <a href="form-register.html" class=""> Create a account </a></p>
+                        <p class="text-base"> Not registered? <a href="{% url 'post:register' %}" class=""> Create a account </a></p>
                     </div>
                 </form>
             </div>

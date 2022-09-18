@@ -6,7 +6,7 @@
             <div class="left-side">
                 <!-- Logo -->
                 <div id="logo" class=" uk-hidden@s">
-                    <a href="home.html">
+                    <a href="{% url 'post:home' %}">
                         <img src="{% static 'assets/images/logo-mobile.png' %}" alt="">
                         <img src="{% static 'assets/images/logo-mobile-light.png' %}" class="logo_inverse">
                     </a>
@@ -33,7 +33,7 @@
                 <a href="#"
                     class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white">
                     <ion-icon name="add-circle" class="-mb-1
-                    mr-1 opacity-90 text-xl uilus-circle"></ion-icon> Upload
+                    mr-1 opacity-90 text-xl uilus-circle"></ion-icon> Upload Files
                 </a>
                 <!-- upload dropdown box -->
                 <div uk-dropdown="pos: top-right;mode:click ; animation: uk-animation-slide-bottom-small" class="header_dropdown">
@@ -118,58 +118,7 @@
                                 </div>
                             </a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" alt="">
-                                </div>
-                                <div class="drop_content">
-                                    <p>
-                                        <strong>Stella Johnson</strong> Nonummy nibh euismod
-                                        <span class="text-link"> Imperdiet doming </span>
-                                    </p>
-                                    <span class="time-ago"> 9 hours ago </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-3.jpg' %}" alt="">
-                                </div>
-                                <div class="drop_content">
-                                    <p>
-                                        <strong>Alex Dolgove</strong>  Lorem ipsum dolor cursus
-                                        <span class="text-link"> Adipiscing massa convallis  </span>
-                                    </p>
-                                    <span class="time-ago"> 12 hours ago </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="">
-                                </div>
-                                <div class="drop_content">
-                                    <p>
-                                        <strong>Stella Johnson</strong> Nonummy nibh euismod
-                                        <span class="text-link"> Imperdiet doming </span>
-                                    </p>
-                                    <span class="time-ago"> Yesterday </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-3.jpg' %}" alt="">
-                                </div>
-                                <div class="drop_content">
-                                    <p>
-                                        <strong>Alex Dolgove</strong>  Lorem ipsum dolor cursus
-                                        <span class="text-link"> Adipiscing massa convallis  </span>
-                                    </p>
-                                    <span class="time-ago"> 12 hours ago </span>
-                                </div>
-                            </a>
-                        </li>
+                        
                     </ul>
                     <a href="#" class="see-all">See all</a>
                 </div>
@@ -198,71 +147,29 @@
                                 </div>
                             </a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" alt="">
-                                </div>
-                                <div class="drop_content">
-                                    <strong> Zara Ali </strong> <time>12:43 PM</time>
-                                    <p>  Sediam nonummy nibh euismod tincidunt laoreet dolore  </p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-3.jpg' %}" alt="">
-                                </div>
-                                <div class="drop_content">
-                                    <strong> Mohamed Ali </strong> <time> Wed </time>
-                                    <p> Lorem ipsum dolor sit amet, consectetur </p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="">
-                                </div>
-                                <div class="drop_content">
-                                    <strong> John menathon </strong> <time> Sun</time>
-                                    <p> Namliber tempor cumsoluta nobis eleifend option adipiscing </p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" alt="">
-                                </div>
-                                <div class="drop_content">
-                                    <strong> Zara Ali </strong> <time> Fri</time>
-                                    <p> Lorem ipsum dolor sit amet, consectetur </p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-3.jpg' %}" alt="">
-                                </div>
-                                <div class="drop_content">
-                                    <strong> Mohamed Ali </strong> <time>1 Week ago</time>
-                                    <p>  Sediam nonummy nibh euismod tincidunt laoreet dolore  </p>
-                                </div>
-                            </a>
-                        </li>
+                        
                     </ul>
                     <a href="#" class="see-all">See all</a>
                 </div>
 
                 <!-- profile -->
-
+            <ul>
+                <li>
+                    <a href="{% url 'post:profile' user.id %}"> 
+                    <span> {{request.user}} </span> </a> 
+                </li>
+            </ul>
                 <a href="#">
                     <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" class="header-avatar" alt="">
                 </a>
+                
+                
                 <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
                     <ul>
                         <li><a href="#"> Account setting </a> </li>
                         <li><a href="#"> Payments </a> </li>
                         <li><a href="#"> Help </a> </li>
-                        <li><a href="form-login.html"> Log Out</a></li>
+                        <li><a href="{% url 'post:logout' %}"> Log Out</a></li>
                     </ul>
                 </div>
 
