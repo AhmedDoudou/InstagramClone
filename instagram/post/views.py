@@ -4,11 +4,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm
 from django.contrib.auth.models import User
+from .models import Post
 
 # Create your views here.
 @login_required(login_url='post:login')
 def index(request):
-    return render(request, "feed.html")
+    users = User.objects.all()
+    posts  = Post.objects.all()
+    context = {"users":users, "posts":posts}
+
+    return render(request, "feed.html",context)
 
 
 @login_required(login_url='post:login')
