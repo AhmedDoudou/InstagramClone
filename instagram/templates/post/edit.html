@@ -1,0 +1,42 @@
+{% extends 'includes/main.html' %}
+    {% load static %}
+    
+    {% block content %}
+    
+    {% include 'includes/sidebar.html' %}
+    {% include 'includes/header.html' %}
+
+    <div class="container m-auto">
+        {% for message in messages %}
+            <p>{{message}}</p>
+        {% endfor %}
+        <div class="grid lg:grid-cols-3 mt-12 gap-8">
+                <div class="bg-white rounded-md lg:shadow-lg shadow col-span-2">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                        <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
+                                <div class="col-span-2 shadow-none bg-gray-100">
+                                    <label for=""> Picture</label>
+                                    {{form.picture}}
+                                </div>
+                                <div class="col-span-2 ">
+                                    <label for=""> Caption</label>
+                                    {{form.caption}}
+                                </div>
+                                <div class="col-span-2 ">
+                                    <label for=""> Tags</label>
+                                    {{form.tag}}
+                                </div>
+                        </div> 
+                        <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
+                            <!-- <button class="p-2 px-4 rounded bg-gray-50 text-red-500"> Cancel </button> -->
+                            <button type="submit"  class="button bg-blue-700">Post </button>
+                        </div>
+                </form>
+                </div>
+            
+        </div>
+    </div>
+
+    
+{% endblock content %}
