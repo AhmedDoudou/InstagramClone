@@ -32,15 +32,16 @@ def user_dir_path(instence,filename):
     return 'user_{0}/{1}'.format(instence.user.id,filename)
 
 class Post(models.Model):
-    id      = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
-    picture = models.ImageField(upload_to=user_dir_path, blank=True, null=True, verbose_name="Picture")
-    caption = models.CharField(max_length=1000, verbose_name="Caption")
-    user    = models.ForeignKey(User, null=False,on_delete=models.CASCADE)
-    tag     = models.ManyToManyField(Tag, related_name="tags")
-    text    = models.TextField(null=True, blank=True)
-    likes   = models.ManyToManyField(User,default=0,blank=True, related_name="likes")
-    posted  = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    id          = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
+    picture     = models.ImageField(upload_to=user_dir_path, blank=True, null=True, verbose_name="Picture")
+    caption     = models.CharField(max_length=1000, verbose_name="Caption")
+    user        = models.ForeignKey(User, null=False,on_delete=models.CASCADE)
+    tag         = models.ManyToManyField(Tag, related_name="tags")
+    # text        = models.TextField(null=True, blank=True)
+    likes       = models.ManyToManyField(User,blank=True, related_name="likes")
+    # comments    = models.ManyToManyField(User,blank=True, related_name="comments")
+    posted      = models.DateTimeField(auto_now_add=True)
+    updated     = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.caption
@@ -48,7 +49,7 @@ class Follow(models.Model):
     follower    = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
     following   = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
     def __str__(self):
-        return self.follower
+        return self.follower.username
 
 class Stream(models.Model): 
     following   = models.ForeignKey(User, on_delete=models.CASCADE, related_name="stream_following")
@@ -65,11 +66,16 @@ class Stream(models.Model):
             stream.save()
 post_save.connect(Stream.add_post, sender=Post.user)
 
-# class Profile(User):
-#     user = User
-#     picture = models.ImageField(upload_to="profile", blank=True, null=True, verbose_name="Picture")
-#     description = models.TextField(null=True, blank=True)
-
+class Comment(models.Model):
+    user    = models.ForeignKey(User, on_delete=models.CASCADE)
+    post    = models.ForeignKey('Post', on_delete=models.CASCADE)
+    body    = models.TextField()
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.body
+    
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liker")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="liked")

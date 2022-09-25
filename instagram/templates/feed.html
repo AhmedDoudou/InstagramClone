@@ -83,15 +83,15 @@
                             <div class="flex space-x-4 lg:font-bold">
                                 <form action="{% url 'post:like' p.id %}" method="post">
                                     {% csrf_token %}
-                                    <input type="hidden" name="next">
-                                    <a href="#" class="flex items-center space-x-2">
-                                    <div class="p-2 rounded-full text-black">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
-                                            <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-                                        </svg>
-                                    </div>
-                                    <div> Like</div>
-                                </a>
+                                    <input type="hidden" name="next" value="{{request.path}}">
+                                    <button type="submit" class="flex items-center space-x-2">
+                                        <div class="p-2 rounded-full text-black">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
+                                                <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+                                            </svg>
+                                        </div>
+                                        <div> Like</div>
+                                    </button>
                                 </form>
                                 
                                 <a href="#" class="flex items-center space-x-2">
@@ -112,7 +112,7 @@
                             </div>
                             <div class="flex items-center space-x-3"> 
                                 <div class="dark:text-gray-100">
-                                    Liked by <strong> {{p.likes.count}} Others </strong>
+                                    Liked by <strong> {{p.likes.all.count}} Others </strong>
                                 </div><br>
                                 
                             </div>
@@ -125,23 +125,33 @@
                             <div class="border-t pt-4 space-y-4 dark:border-gray-600">
                                 <!-- COMMENTS -->
                                 <div class="flex">
-                                    <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                    
+                                    {% if comment %}
+                                       <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                         <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" alt="" class="absolute h-full rounded-full w-full">
                                     </div>
                                     <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full relative lg:ml-5 ml-2 lg:mr-20  dark:bg-gray-800 dark:text-gray-100">
-                                        <p class="leading-6">{{p.comment}} <urna class="i uil-heart"></urna> <i
-                                                class="uil-grin-tongue-wink"> </i> </p>
+                                        <p class="leading-6">{{comment.body}} <urna class="i uil-heart"></urna> <i
+                                                class="uil-grin-tongue-wink"> </i></p>
                                         <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                    </div>
+                                    </div> 
+                                    {% endif %}
+                                        
+                                    
                                 </div>
                             </div>
 
                             <div class="bg-gray-100 bg-gray-100 rounded-full rounded-md relative dark:bg-gray-800">
-                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none">
-                                <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
-                                    <a href="#"> <i class="uil-image"></i></a>
-                                    <a href="#"> <i class="uil-video"></i></a>
-                                </div>
+                                <form method="post" action=" {% url 'post:comment' p.id %} ">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{{request.path}}">
+                                    <input type="text" name="comment" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none">
+                                    <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
+                                        <a href="#"> <i class="uil-image"></i></a>
+                                        <a href="#"> <i class="uil-video"></i></a>
+                                    </div>
+                                </form>
+                                
                             </div>
 
                         </div>
@@ -271,7 +281,7 @@
                                             <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" alt="" class="absolute h-full rounded-full w-full">
                                         </div>
                                         <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full relative lg:ml-5 ml-2 lg:mr-20  dark:bg-gray-800 dark:text-gray-100">
-                                            <p class="leading-6">Nam liber tempor cum soluta nobis eleifend option <i class="uil-grin-tongue-wink-alt"></i>
+                                            <p class="leading-6">{{comment.body}} <i class="uil-grin-tongue-wink-alt"></i>
                                             </p>
                                             <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                         </div>

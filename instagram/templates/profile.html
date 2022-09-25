@@ -96,132 +96,54 @@
                 <div class="my-6 grid lg:grid-cols-5 grid-cols-3 gap-2 hover:text-yellow-700 uk-link-reset">
                     <a href="{% url 'post:create' %}">
                         <div class="bg-gray-100 border-4 border-dashed flex flex-col h-full items-center justify-center relative rounded-2xl w-full"> 
-                            <i class="text-4xl uil-plus-circle"></i> <span> Add new </span>
+                            <i class="text-4xl uil-plus-circle"></i> <span> Add Post </span>
                         </div>
                     </a>
-                    <a href="#story-modal" uk-toggle>
+                    <!-- <a href="#story-modal" uk-toggle>
                         <img src="{% static 'assets/images/avatars/avatar-lg-1.jpg' %}" alt="" class="w-full lg:h-60 h-40 rounded-md object-cover">
-                    </a>
-                    <a href="#story-modal" uk-toggle>
+                    </a> -->
+                    <!-- <a href="#story-modal" uk-toggle>
                         <img src="{% static 'assets/images/post/img2.jpg' %}" alt="" class="w-full lg:h-60 h-40 rounded-md object-cover">
-                    </a>
+                    </a> -->
                     <a href="#story-modal" uk-toggle>
-                        <img src="{% static 'assets/images/post/img7.jpg' %}" alt="" class="w-full lg:h-60 h-40 rounded-md object-cover uk-visible@s">
+                        <img src="{% static 'assets/images/post/img2.jpg' %}" alt="" class="w-full lg:h-60 h-40 rounded-md object-cover uk-visible@s">
                     </a>
                 </div>
+  <!-- left sidebar-->
+  <div class="space-y-5 flex-shrink-0 lg:w-7/12">
+    <!-- ************************** FOR LOOP ******************************************** -->
+
+                        <!-- Load more-->
+                        <div class="flex justify-center mt-6" id="toggle" hidden>
+                            <a href="#"
+                                class="bg-white dark:bg-gray-900 font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
+                                Load more ..</a>
+                        </div>
+                    </div>
 
                 <div class="flex items-center justify-between mt-8 space-x-3">
-                    <h1 class="flex-1 font-extrabold leading-none lg:text-2xl text-lg text-gray-900 tracking-tight uk-heading-line"><span>Explore</span></h1>
-                    <div class="bg-white border border-2 border-gray-300 divide-gray-300 divide-x flex rounded-md shadow-sm dark:bg-gray-100">
-                        <a href="#" class="bg-gray300 flex h-10 items-center justify-center  w-10" data-tippy-placement="top" title="Grid view"> <i class="uil-apps"></i></a>
-                        <a href="#" class="flex h-10 items-center justify-center w-10" data-tippy-placement="top" title="List view"> <i class="uil-list-ul"></i></a>                        
-                    </div>
-                </div>
-
-                <div class="my-6 grid lg:grid-cols-4 grid-cols-2 gap-1.5 hover:text-yellow-700 uk-link-reset">
-                <div>
-                    <div class="bg-red-500 max-w-full lg:h-64 h-40 rounded-md relative overflow-hidden uk-transition-toggle" tabindex="0"> 
-                            <img src="{% static 'assets/images/avatars/avatar-lg-1.jpg' %}" class="w-full h-full absolute object-cover inset-0">
-
-                            <div class="absolute bg-black bg-opacity-40 bottom-0 flex h-full items-center justify-center space-x-5 text-lg text-white uk-transition-scale-up w-full">   
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> 150 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="chatbubble-ellipses" class="mr-1"></ion-icon> 30 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="pricetags" class="mr-1"></ion-icon> 12  </a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div>
-                        <div class="bg-red-500 max-w-full lg:h-64 h-40 rounded-md relative overflow-hidden uk-transition-toggle" tabindex="0"> 
-                            <img src="{% static 'assets/images/post/img1.jpg' %}" class="w-full h-full absolute object-cover inset-0">
-
-                            <div class="absolute bg-black bg-opacity-40 bottom-0 flex h-full items-center justify-center space-x-5 text-lg text-white uk-transition-scale-up w-full">   
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> 150 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="chatbubble-ellipses" class="mr-1"></ion-icon> 30 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="pricetags" class="mr-1"></ion-icon> 12  </a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div>
-                        <div class="bg-red-500 max-w-full lg:h-64 h-40 rounded-md relative overflow-hidden uk-transition-toggle" tabindex="0"> 
-                            <img src="{% static 'assets/images/post/img2.jpg' %}" class="w-full h-full absolute object-cover inset-0">
-
-                            <div class="absolute bg-black bg-opacity-40 bottom-0 flex h-full items-center justify-center space-x-5 text-lg text-white uk-transition-scale-up w-full">   
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> 150 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="chatbubble-ellipses" class="mr-1"></ion-icon> 30 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="pricetags" class="mr-1"></ion-icon> 12  </a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div>
-                        <div class="bg-red-500 max-w-full lg:h-64 h-40 rounded-md relative overflow-hidden uk-transition-toggle" tabindex="0"> 
-                            <img src="{% static 'assets/images/post/img3.jpg' %}" class="w-full h-full absolute object-cover inset-0">
-
-                            <div class="absolute bg-black bg-opacity-40 bottom-0 flex h-full items-center justify-center space-x-5 text-lg text-white uk-transition-scale-up w-full">   
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> 150 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="chatbubble-ellipses" class="mr-1"></ion-icon> 30 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="pricetags" class="mr-1"></ion-icon> 12  </a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div>
-                        <div class="bg-red-500 max-w-full lg:h-64 h-40 rounded-md relative overflow-hidden uk-transition-toggle" tabindex="0"> 
-                            <img src="{% static 'assets/images/post/img4.jpg' %}" class="w-full h-full absolute object-cover inset-0">
-
-                            <div class="absolute bg-black bg-opacity-40 bottom-0 flex h-full items-center justify-center space-x-5 text-lg text-white uk-transition-scale-up w-full">   
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> 150 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="chatbubble-ellipses" class="mr-1"></ion-icon> 30 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="pricetags" class="mr-1"></ion-icon> 12  </a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div>
-                        <div class="bg-red-500 max-w-full lg:h-64 h-40 rounded-md relative overflow-hidden uk-transition-toggle" tabindex="0"> 
-                            <img src="{% static 'assets/images/post/img5.jpg' %}" class="w-full h-full absolute object-cover inset-0">
-
-                            <div class="absolute bg-black bg-opacity-40 bottom-0 flex h-full items-center justify-center space-x-5 text-lg text-white uk-transition-scale-up w-full">   
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> 150 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="chatbubble-ellipses" class="mr-1"></ion-icon> 30 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="pricetags" class="mr-1"></ion-icon> 12  </a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div>
-                        <div class="bg-red-500 max-w-full lg:h-64 h-40 rounded-md relative overflow-hidden uk-transition-toggle" tabindex="0"> 
-                            <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" class="w-full h-full absolute object-cover inset-0">
-
-                            <div class="absolute bg-black bg-opacity-40 bottom-0 flex h-full items-center justify-center space-x-5 text-lg text-white uk-transition-scale-up w-full">   
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> 150 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="chatbubble-ellipses" class="mr-1"></ion-icon> 30 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="pricetags" class="mr-1"></ion-icon> 12  </a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div>
-                        <div class="bg-red-500 max-w-full lg:h-64 h-40 rounded-md relative overflow-hidden uk-transition-toggle" tabindex="0"> 
-                            <img src="{% static 'assets/images/avatars/avatar-6.jpg' %}" class="w-full h-full absolute object-cover inset-0">
-
-                            <div class="absolute bg-black bg-opacity-40 bottom-0 flex h-full items-center justify-center space-x-5 text-lg text-white uk-transition-scale-up w-full">   
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> 150 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="chatbubble-ellipses" class="mr-1"></ion-icon> 30 </a>
-                                <a href="#story-modal" uk-toggle class="flex items-center"> <ion-icon name="pricetags" class="mr-1"></ion-icon> 12  </a>
-                            </div>
-
-                        </div>
-                    </div>
+                    <h1 class="flex-1 font-extrabold leading-none lg:text-2xl text-lg text-gray-900 tracking-tight uk-heading-line"><span>Posts({{post}})</span></h1>
                     
                 </div>
-
-                <div class="flex justify-center mt-6">
-                    <a href="#" class="bg-white dark:bg-gray-900 font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white"> Load more ..</a>
+                    <!-- <<<<<<<<<<<<<<<<<<<< MY POSTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+                <div class="my-6 grid lg:grid-cols-4 grid-cols-2 gap-1.5 hover:text-yellow-700 uk-link-reset">
+                   
+                   {% for post in my_posts %}
+                   <div>
+                        <div class="bg-red-500 max-w-full lg:h-64 h-40 rounded-md relative overflow-hidden uk-transition-toggle" tabindex="0"> 
+                                <img src="{{post.picture.url}}" class="w-full h-full absolute object-cover inset-0">
+                                <div class="absolute bg-black bg-opacity-40 bottom-0 flex h-full items-center justify-center space-x-5 text-lg text-white uk-transition-scale-up w-full">   
+                                    <a href="{% url 'post:detail' post.id %}" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> Detail </a>
+                                    
+                                </div>
+                        </div>
+                        
+                    </div>
+                   {% endfor %}
+                    
                 </div>
-
+  <!-- <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< END POSTS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+               
 
             </div>
         </div>

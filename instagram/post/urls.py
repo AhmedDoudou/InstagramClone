@@ -16,7 +16,9 @@ urlpatterns = [
     path('create/', PostCreate, name='create'),
     path('edit/<str:id>/', PostEdit, name='edit'),
     path('detail/<str:id>/', DetailPost, name='detail'),
-    path('post/<str:id>/like', AddLike, name='like'),
+    path('post/<str:id>/like/', AddLike, name='like'),
+    path('post/<str:id>/comment/', AddLike, name='comment'),
+
 
 
 

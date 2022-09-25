@@ -1,5 +1,7 @@
-from turtle import title
+from xml.etree.ElementTree import Comment
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic import *
@@ -11,16 +13,17 @@ from .models import Follow, Post,Stream, Tag, Like
 # Create your views here.
 @login_required(login_url='post:login')
 def index(request):
-    user = request.user
-    post = Post.objects.all().filter(user=user).count()
-    posts  = Stream.objects.all().filter(user=user)
-    my_posts = Post.objects.all().filter(user=user).order_by("-posted")
-    follower = Follow.objects.all().filter(follower=user).count()
-    following = Follow.objects.all().filter(following=user).count()
-    group_ids = []
+    user        = request.user
+    post        = Post.objects.all().filter(user=user).count()
+    followers   = Follow.objects.all().filter(follower=user)
+    posts       = Stream.objects.all().filter(following=user).order_by("-date")
+    my_posts    = Post.objects.all().filter(user=user).order_by("-posted")
+    follower    = Follow.objects.all().filter(follower=user).count()
+    following   = Follow.objects.all().filter(following=user).count()
+    group_ids   = []
     for post in posts:
         group_ids.append(post.post_id)
-    post_iteams = Post.objects.filter(id__in=group_ids).order_by('-posted')
+    post_iteams = Post.objects.filter(id__in=group_ids).all().order_by('-posted')
     context = { 
         "posts":posts,
         "post_iteams":post_iteams,
@@ -36,15 +39,17 @@ def index(request):
 
 @login_required(login_url='post:login')
 def Profile(request,id):
-    user = User.objects.get(id=id)
-    users = User.objects.all()
-    post = Post.objects.all().filter(user=user).count()
-    follower = Follow.objects.all().filter(follower=user).count()
-    following = Follow.objects.all().filter(following=user).count()
+    user        = User.objects.get(id=id)
+    users       = User.objects.all()
+    post        = Post.objects.all().filter(user=user).count()
+    my_posts    = Post.objects.all().filter(user=user).order_by("-posted")
+    follower    = Follow.objects.all().filter(follower=user).count()
+    following   = Follow.objects.all().filter(following=user).count()
     context = {
         "user":user,
         "users":users,
         "post":post,
+        "my_posts":my_posts,
         "follower":follower,
         "following":following,
     }
@@ -142,22 +147,15 @@ def PostEdit(request,id):
         context = {"form":form}
         return render(request,"post/edit.html",context)
 
-# def Likes(request,id):
-#     user  = request.user
-#     post = Post.objects.get(id=id)
-#     carrent_likes = Post.likes
-#     liked = Like.objects.filter(user=user,post=post).count()
-#     if not liked:
-#         liked = Like.objects.create(user=user, post=post)
-#         carrent_likes=+1
-#     else:
-#         liked = Like.objects.filter(user=user, post=post).delete()
-#         carrent_likes-=1
-#     post.likes= carrent_likes
-#     post.save()
-
-#     context = {}
-#     return render(request,"")
+def post(request,id):
+    user = request.user
+    post =Post.objects.get(id=id)
+    if request.method=="POST":
+        comment= Comment.objects.create(user= user,post=post,body=request.POST.get("comment"))
+        comment.save()
+    context = {"comment":comment}
+    next = request.POST.get('next','/')   
+    return HttpResponseRedirect(next,context)  
 
 def DetailPost(request,id):
     user = request.user
@@ -166,12 +164,47 @@ def DetailPost(request,id):
     return render(request, "post/detail.html",context)
 
 def AddLike(request,id):
-    user = request.user
-    post = Post.objects.get(id=id)
-    likes = post.likes
-    carent_likes = Post.objects.filter(likes=likes).count()
-    print(carent_likes)
-    # if request.method == "POST":
-    #     likes = Like.objects.add(user=user,post=post)
-    #     post.likes+=1
-    return HttpResponseRedirect("")
+    user = request.user                                  # user who wanna like or dislike
+    post = Post.objects.get(id=id)   
+    is_like = False
+    for like in post.likes.all():
+          if like == user :
+            is_like = True  
+            break
+    if not is_like:
+        post.likes.add(user)
+    if is_like:
+        post.likes.remove(user)     
+
+    next = request.POST.get('next','/')   
+    return HttpResponseRedirect(next)  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
