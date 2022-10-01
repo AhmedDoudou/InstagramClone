@@ -13,16 +13,16 @@
                     <!-- left sidebar-->
                     <div class="space-y-5 flex-shrink-0 lg:w-7/12">
     <!-- ************************** FOR LOOP ******************************************** -->
-                      {% for p in my_posts %}
+                      <!-- {% for p in my_posts %}
                       <div class="bg-white shadow rounded-md dark:bg-gray-900 -mx-2 lg:mx-0">
                         <!-- post header-->
-                        <div class="flex justify-between items-center px-4 py-3">
+                        <!-- <div class="flex justify-between items-center px-4 py-3">
                             <div class="flex flex-1 items-center space-x-4">
                                 <a href="#">
                                     <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">  
                                         <img src="{% static 'assets/images/avatars/avatar-7.jpg' %}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
                                     </div>
-                                    <!-- {% static 'assets/images/avatars/avatar-2.jpg' %} -->
+                                   
                                 </a>
                                 <span class="block capitalize font-semibold dark:text-gray-100"> {{p.user.username}} </span>
 
@@ -64,7 +64,7 @@
                             
                             </div>
                           </div>
-                        </div>
+                        </div> 
 
                         <div uk-lightbox>
                             {% if p.picture %}
@@ -123,7 +123,7 @@
                                 
                             </div>
                             <div class="border-t pt-4 space-y-4 dark:border-gray-600">
-                                <!-- COMMENTS -->
+                                <-- COMMENTS >
                                 <div class="flex">
                                     
                                     {% if comment %}
@@ -158,10 +158,10 @@
 
                     </div>
                       {% endfor %}
-                        
-                    {% for posts in post_iteams  %}
+                         -->
+                    {% for post in post_iteams  %}
                         <div class="bg-white shadow rounded-md dark:bg-gray-900 -mx-2 lg:mx-0">
-    
+                        
                             <!-- post header-->
                             <div class="flex justify-between items-center px-4 py-3">
                                 <div class="flex flex-1 items-center space-x-4">
@@ -169,9 +169,8 @@
                                         <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">  
                                             <img src="{% static 'assets/images/avatars/avatar-7.jpg' %}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
                                         </div>
-                                        <!-- {% static 'assets/images/avatars/avatar-2.jpg' %} -->
                                     </a>
-                                    <span class="block capitalize font-semibold dark:text-gray-100"> {{posts.user.username}} </span>
+                                    <span class="block capitalize font-semibold dark:text-gray-100"><a href="{% url 'post:profile' post.user.id %}">{{post.user.username}}</a>  </span>
                                 </div>
                               <div>
                                 <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 dark:hover:bg-gray-700"></i> </a>
@@ -184,7 +183,7 @@
                                           </a> 
                                       </li>
                                       <li> 
-                                          <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                          <a href="{% url 'post:edit' post.id %}" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
                                            <i class="uil-edit-alt mr-1"></i>  Edit Post 
                                           </a> 
                                       </li>
@@ -213,35 +212,35 @@
                             </div>
     
                             <div uk-lightbox>
-                                {% if posts.picture %}
-                                   <a href="{{posts.picture.url}}">  
-                                    <img src="{{posts.picture.url}}" alt="">
+                            <!-- {% url 'post:detail' post.id %} -->
+                                <a href=" {{post.picture.url}}">
+                                    <img src="{{post.picture.url}}" alt="">
                                 </a> 
-                                {% else %}
-                                <div class="dark:text-gray-100">
-                                     {{posts.text}}
-                               </div>
-                                {% endif %}
-
+                            
                             </div>
                             <div class="py-3 px-4 space-y-3"> 
-                               
+                                
+                                
                                 <div class="flex space-x-4 lg:font-bold">
-                                    <a href="#" class="flex items-center space-x-2">
+                                   <form action="{% url 'post:like' post.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{{request.path}}">
+                                    <button type="submit" class="flex items-center space-x-2">
                                         <div class="p-2 rounded-full text-black">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-700">
                                                 <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                             </svg>
                                         </div>
-                                        <div> Like</div>
-                                    </a>
+                                        <div> </div>
+                                    </button>
+                                </form>
                                     <a href="#" class="flex items-center space-x-2">
                                         <div class="p-2 rounded-full text-black">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                 <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                             </svg>
                                         </div>
-                                        <div> Comment</div>
+                                        <div> </div>
                                     </a>
                                     <a href="#" class="flex items-center space-x-2 flex-1 justify-end">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
@@ -251,18 +250,20 @@
                                     </a>
                                 </div>
                                 <div class="flex items-center space-x-3"> 
-                                    <div class="flex items-center">
-                                        <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
-                                        <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
-                                        <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
-                                    </div>
+                                    
                                     <div class="dark:text-gray-100">
-                                        Liked by <strong> {{posts.likes}} Others </strong>
+                                         <strong> {{post.likes.count}}  </strong><b> Likes</b>
                                     </div><br>
                                     
                                 </div>
                                 <div class="dark:text-gray-100">
-                                         <strong> {{posts.user.username}} </strong> {{posts.caption}}
+                                         <strong> {{post.user.username}} </strong> {{post.caption}} <br>
+                                         
+                                         {% for tag in post.tag.all  %}
+                                           <a href="#"><strong> #{{tag}}  </strong></a> 
+                                         {% endfor %}
+                                            
+                                         
                                     </div>
 
                                 <div class="border-t pt-4 space-y-4 dark:border-gray-600">
@@ -271,7 +272,7 @@
                                             <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" alt="" class="absolute h-full rounded-full w-full">
                                         </div>
                                         <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full relative lg:ml-5 ml-2 lg:mr-20  dark:bg-gray-800 dark:text-gray-100">
-                                            <p class="leading-6">{{posts.comment}} <urna class="i uil-heart"></urna> <i
+                                            <p class="leading-6">{{comment.user.username}} love<urna class="i uil-heart"></urna> <i
                                                     class="uil-grin-tongue-wink"> </i> </p>
                                             <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                         </div>
@@ -281,26 +282,117 @@
                                             <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" alt="" class="absolute h-full rounded-full w-full">
                                         </div>
                                         <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full relative lg:ml-5 ml-2 lg:mr-20  dark:bg-gray-800 dark:text-gray-100">
-                                            <p class="leading-6">{{comment.body}} <i class="uil-grin-tongue-wink-alt"></i>
-                                            </p>
+                                            <p class="leading-6">{{comment.body}} </p>
                                             <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="bg-gray-100 bg-gray-100 rounded-full rounded-md relative dark:bg-gray-800">
-                                    <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none">
-                                    <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
-                                        <a href="#"> <i class="uil-image"></i></a>
-                                        <a href="#"> <i class="uil-video"></i></a>
-                                    </div>
+                                    <form method="post" >
+                                        {% csrf_token %}
+                                        <input type="text" name="body" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none">
+                                        <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
+                                            <a href=""> <i class="uil-image"></i></a>
+                                            <a href=""> <i class="uil-video"></i></a>
+                                        </div>
+                                    </form>
                                 </div>
     
                             </div>
     
                         </div>
+                     <!-- Story modal -->
+                        <div id="story-modal" class="uk-modal-container" uk-modal>
+                            {% if post.id %}
+                                <div class="uk-modal-dialog story-modal">
+                                    <button class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white" type="button" uk-close></button>
+
+                                        <div class="story-modal-media">
+                                            <img src="{{post.picture.url}}" alt=""  class="inset-0 h-full w-full object-cover">
+                                        </div>
+                                        <div class="flex-1 bg-white dark:bg-gray-900 dark:text-gray-100">
+                                        
+                                            <!-- post header-->
+                                            <div class="border-b flex items-center justify-between px-5 py-3 dark:border-gray-600">
+                                                <div class="flex flex-1 items-center space-x-4">
+                                                    <a href="#">
+                                                        <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">
+                                                            <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}"
+                                                                class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                                        </div>
+                                                    </a>
+                                                    <span class="block text-lg font-semibold"> Johnson smith </span>
+                                                </div>
+                                                <a href="#"> 
+                                                    <i  class="icon-feather-more-horizontal text-2xl rounded-full p-2 transition -mr-1"></i>
+                                                </a>
+                                            </div>
+                                            <div class="story-content p-4" data-simplebar>
+
+                                                <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </p>
+                                                
+                                                <div class="py-4 ">
+                                                    <div class="flex justify-around">
+                                                        <a href="#" class="flex items-center space-x-3">
+                                                            <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i> Like</div>
+                                                        </a>
+                                                        <a href="#" class="flex items-center space-x-3">
+                                                            <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i> Comment</div>
+                                                        </a>
+                                                        <a href="#" class="flex items-center space-x-3">
+                                                            <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i> Share</div>
+                                                        </a>
+                                                    </div>
+                                                    <hr class="-mx-4 my-3">
+                                                    <div class="flex items-center space-x-3"> 
+                                                        <div class="flex items-center">
+                                                            <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white">
+                                                            <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
+                                                            <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
+                                                        </div>
+                                                        <div>
+                                                            Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            <div class="-mt-1 space-y-1">
+                                                <div class="flex flex-1 items-center space-x-2">
+                                                    <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" class="rounded-full w-8 h-8">
+                                                    <div class="flex-1 p-2">
+                                                        consectetuer adipiscing elit, sed diam nonummy nibh euismod
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex flex-1 items-center space-x-2">
+                                                    <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" class="rounded-full w-8 h-8">
+                                                    <div class="flex-1 p-2">
+                                                        consectetuer adipiscing elit
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            </div>
+                                            <div class="p-3 border-t dark:border-gray-600">
+                                                <div class="bg-gray-200 dark:bg-gray-700 rounded-full rounded-md relative">
+                                                    <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-8 shadow-none">
+                                                    <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
+                                                        <a href="#"> <i class="uil-image"></i></a>
+                                                        <a href="#"> <i class="uil-video"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                </div>
+                            {% endif %}    
+                        </div>
+ 
                     {% endfor %}
-                        
                      
                         <!-- Load more-->
                         <div class="flex justify-center mt-6" id="toggle" hidden>
@@ -356,11 +448,11 @@
                                 <div class="grid grid-cols-2 gap-2 p-3 uk-link-reset">
     
                                     <div class="bg-red-500 max-w-full h-32 rounded-lg relative overflow-hidden uk-transition-toggle"> 
-                                        <a href="#story-modal" uk-toggle>
+                                        <a href="#story-modal " uk-toggle>
                                             <img src="{% static 'assets/images/post/img2.jpg' %}" class="w-full h-full absolute object-cover inset-0">
                                         </a>
                                         <div class="flex flex-1 justify-around items-center absolute bottom-0 w-full p-2 text-white custom-overly1 uk-transition-slide-bottom-medium">   
-                                            <a href="#"> <i class="uil-heart"></i> 150 </a>
+                                            <a href="#"> <i class="uil-heart"></i> 11 </a>
                                             <a href="#"> <i class="uil-heart"></i> 30 </a>
                                         </div>
                                     </div>
@@ -412,18 +504,18 @@
     </div>
 
 
-
-    <!-- Story modal -->
-    <div id="story-modal" class="uk-modal-container" uk-modal>
+ <!-- Story modal -->
+ <!-- <div id="story-modal" class="uk-modal-container" uk-modal>
+    {% if post.id %}
         <div class="uk-modal-dialog story-modal">
             <button class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white" type="button" uk-close></button>
 
                 <div class="story-modal-media">
-                    <img src="{% static 'assets/images/post/img4.jpg' %}" alt=""  class="inset-0 h-full w-full object-cover">
+                    <img src="{{post.picture.url}}" alt=""  class="inset-0 h-full w-full object-cover">
                 </div>
                 <div class="flex-1 bg-white dark:bg-gray-900 dark:text-gray-100">
                 
-                    <!-- post header-->
+                    <!-- post header->
                     <div class="border-b flex items-center justify-between px-5 py-3 dark:border-gray-600">
                         <div class="flex flex-1 items-center space-x-4">
                             <a href="#">
@@ -457,7 +549,7 @@
                             <hr class="-mx-4 my-3">
                             <div class="flex items-center space-x-3"> 
                                 <div class="flex items-center">
-                                    <img src="{{post.user.profile_pic}}" alt="" class="w-6 h-6 rounded-full border-2 border-white">
+                                    <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white">
                                     <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
                                     <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
                                 </div>
@@ -499,6 +591,10 @@
                 </div>
 
         </div>
-    </div>
+    {% endif %}    
+</div> -->
+
+
+
 
 {% endblock content %}

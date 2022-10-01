@@ -1,11 +1,10 @@
 {% extends 'includes/main.html' %}
     {% load static %}
     
-    
     {% block content %}
     {% include 'includes/sidebar.html' %}
     {% include 'includes/header.html' %}
-                    <div class="container pro-container m-auto">
+    <div class="container pro-container m-auto">
                 
                 <!-- profile-cover-->
                 <div class="flex lg:flex-row flex-col items-center lg:py-8 lg:space-x-8">
@@ -27,7 +26,7 @@
 
                     <div class="lg:w/8/12 flex-1 flex flex-col lg:items-start items-center"> 
 
-                        <h2 class="font-semibold lg:text-2xl text-lg mb-2"> {{request.user.username}}</h2>
+                        <h2 class="font-semibold lg:text-2xl text-lg mb-2"> {{user.username}}</h2>
                         <p class="lg:text-left mb-2 text-center  dark:text-gray-100"> Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet 
                             doming id quod mazim placerat facer possim assum</p>
 
@@ -37,15 +36,24 @@
 
                             
                             <div class="capitalize flex font-semibold space-x-3 text-center text-sm my-2">
-                                <a href="#" class="bg-gray-300 shadow-sm p-2 px-6 rounded-md dark:bg-gray-700"> Add friend</a>
+                                
+                                {% if request.user == following %}
+                                    <a href="#" class="bg-pink-500 shadow-sm p-2 pink-500 px-6 rounded-md dark:bg-gray-700">  unfollow</a>
+                                    <a href="#" class="bg-pink-500 shadow-sm p-2 pink-500 px-6 rounded-md text-white hover:text-white hover:bg-pink-600"> Send message</a>
+                                {% elif request.user == user %}
+                                    <a href="#" class="bg-gray-300 shadow-sm p-2 px-6 rounded-md dark:bg-gray-700"> Edit Profile</a>
+                                {% else %}
+                                <a href="#" class="bg-pink-500 shadow-sm p-2 pink-500 px-6 rounded-md dark:bg-gray-700"> Follow</a>
                                 <a href="#" class="bg-pink-500 shadow-sm p-2 pink-500 px-6 rounded-md text-white hover:text-white hover:bg-pink-600"> Send message</a>
+                                {% endif %}
+                                    
                                 <div>
 
                                 <a href="#" class="bg-gray-300 flex h-12 h-full items-center justify-center rounded-full text-xl w-9 dark:bg-gray-700"> 
                                     <i class="icon-feather-chevron-down"></i> 
                                 </a>
                                     
-                                <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base dark:bg-gray-900" uk-drop="mode: click">
+                                <!-- <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base dark:bg-gray-900" uk-drop="mode: click">
                               
                                   <ul class="space-y-1">
                                     <li> 
@@ -73,16 +81,16 @@
                                     </li>
                                   </ul>
                               
-                                </div>
+                                </div> -->
 
                                 </div>
 
                             </div>
 
                             <div class="divide-gray-300 divide-transparent divide-x grid grid-cols-3 lg:text-left lg:text-lg mt-3 text-center w-full dark:text-gray-100">
-                                <div class="flex lg:flex-row flex-col"> {{post}} <strong class="lg:pl-2">Posts</strong></div>
-                                <div class="lg:pl-4 flex lg:flex-row flex-col"> {{follower}} <strong class="lg:pl-2">Followers</strong></div>
-                                <div class="lg:pl-4 flex lg:flex-row flex-col"> {{following}} <strong class="lg:pl-2">Following</strong></div>
+                                <div class="flex lg:flex-row flex-col"> {{my_posts.count}} <strong class="lg:pl-2">Posts</strong></div>
+                                <div class="lg:pl-4 flex lg:flex-row flex-col"> {{follower.count}}<strong class="lg:pl-2">Followers</strong></div>
+                                <div class="lg:pl-4 flex lg:flex-row flex-col"> {{following.count}} <strong class="lg:pl-2">Following</strong></div>
                             </div>
  
                     </div>
@@ -90,71 +98,56 @@
                     <div class="w-20"></div>
 
                 </div>
-              
-                <h1 class="lg:text-2xl text-lg font-extrabold leading-none text-gray-900 tracking-tight mt-8"> Highths </h1>
                 
-                <div class="my-6 grid lg:grid-cols-5 grid-cols-3 gap-2 hover:text-yellow-700 uk-link-reset">
-                    <a href="{% url 'post:create' %}">
-                        <div class="bg-gray-100 border-4 border-dashed flex flex-col h-full items-center justify-center relative rounded-2xl w-full"> 
-                            <i class="text-4xl uil-plus-circle"></i> <span> Add Post </span>
-                        </div>
-                    </a>
-                    <!-- <a href="#story-modal" uk-toggle>
-                        <img src="{% static 'assets/images/avatars/avatar-lg-1.jpg' %}" alt="" class="w-full lg:h-60 h-40 rounded-md object-cover">
-                    </a> -->
-                    <!-- <a href="#story-modal" uk-toggle>
-                        <img src="{% static 'assets/images/post/img2.jpg' %}" alt="" class="w-full lg:h-60 h-40 rounded-md object-cover">
-                    </a> -->
-                    <a href="#story-modal" uk-toggle>
-                        <img src="{% static 'assets/images/post/img2.jpg' %}" alt="" class="w-full lg:h-60 h-40 rounded-md object-cover uk-visible@s">
-                    </a>
-                </div>
-  <!-- left sidebar-->
-  <div class="space-y-5 flex-shrink-0 lg:w-7/12">
-    <!-- ************************** FOR LOOP ******************************************** -->
 
-                        <!-- Load more-->
-                        <div class="flex justify-center mt-6" id="toggle" hidden>
-                            <a href="#"
-                                class="bg-white dark:bg-gray-900 font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
-                                Load more ..</a>
-                        </div>
-                    </div>
+                    <h1 class="font-extrabold leading-none mb-6 mt-8 lg:text-2xl text-lg text-gray-900 tracking-tight"> Explore ({{my_posts.count}})</h1>
 
-                <div class="flex items-center justify-between mt-8 space-x-3">
-                    <h1 class="flex-1 font-extrabold leading-none lg:text-2xl text-lg text-gray-900 tracking-tight uk-heading-line"><span>Posts({{post}})</span></h1>
-                    
-                </div>
-                    <!-- <<<<<<<<<<<<<<<<<<<< MY POSTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-                <div class="my-6 grid lg:grid-cols-4 grid-cols-2 gap-1.5 hover:text-yellow-700 uk-link-reset">
-                   
-                   {% for post in my_posts %}
-                   <div>
-                        <div class="bg-red-500 max-w-full lg:h-64 h-40 rounded-md relative overflow-hidden uk-transition-toggle" tabindex="0"> 
-                                <img src="{{post.picture.url}}" class="w-full h-full absolute object-cover inset-0">
-                                <div class="absolute bg-black bg-opacity-40 bottom-0 flex h-full items-center justify-center space-x-5 text-lg text-white uk-transition-scale-up w-full">   
-                                    <a href="{% url 'post:detail' post.id %}" uk-toggle class="flex items-center"> <ion-icon name="heart" class="mr-1"></ion-icon> Detail </a>
-                                    
+                    <div class="mt-6 grid lg:grid-cols-3 grid-cols-2 gap-3 hover:text-yellow-700 uk-link-reset">
+                        {% for p in my_posts %}
+                        <div>
+                            <div
+                                class="bg-red-400 max-w-full lg:h-60 h-48 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
+                                <a href="#story-modal{{p.id}}" uk-toggle>
+                                    <img src="{{p.picture.url}}"
+                                        class="w-full h-full absolute object-cover inset-0">
+                                </a>
+                                <a href="#story-modal{{p.id}}" uk-toggle
+                                    class="absolute flex h-full items-center justify-center w-8 w-full uk-transition-scale-up bg-black bg-opacity-10">
+                                    <img src="{{p.picture.url}}" alt="" class="w-16 h-16 -mt-5">
+                                </a>
+                                <div
+                                    class="flex flex-1 items-center absolute bottom-0 w-full p-3 text-white custom-overly1 uk-transition-slide-bottom-medium">
+                                    <a href="{% url 'post:profile' user.id %}" class="lg:flex flex-1 items-center hidden">
+                                        <div
+                                            class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full transform -rotate-2 hover:rotate-3 transition hover:scale-105 m-0.5 mr-2">
+                                            <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}"
+                                                class="bg-gray-200 border border-white rounded-full w-8">
+                                        </div>
+                                        <div> {{p.user}} </div>
+                                    </a>
+                                    <div class="flex space-x-2 flex-1 lg:flex-initial justify-around">
+                                        <a href="{% url 'post:like' p.id %}"> <i class="uil-heart"></i> {{p.likes.count}} </a>
+                                        <!-- <a href="#"> <i class="uil-heart"></i>  </a> -->
+                                    </div>
                                 </div>
+    
+                            </div>
                         </div>
-                        
+                        {% endfor %}
+    
                     </div>
-                   {% endfor %}
-                    
-                </div>
-  <!-- <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< END POSTS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-               
-
-            </div>
-        </div>
-    </div>
+    
+    </div->
+    
+              <!-- zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz -->
    <!-- Story modal -->
-    <div id="story-modal" class="uk-modal-container" uk-modal>
+   {% for p in my_posts %}
+    <div id="story-modal{{p.id}}" class="uk-modal-container" uk-modal>
         <div class="uk-modal-dialog story-modal">
             <button class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white" type="button" uk-close></button>
 
                 <div class="story-modal-media">
-                    <img src="{% static 'assets/images/post/img4.jpg' %}" alt=""  class="inset-0 h-full w-full object-cover">
+                    <img src="{{p.picture.url}}" alt=""  class="inset-0 h-full w-full object-cover">
                 </div>
                 <div class="flex-1 bg-white dark:bg-gray-900 dark:text-gray-100">
                 
@@ -167,7 +160,7 @@
                                         class="bg-gray-200 border border-white rounded-full w-8 h-8">
                                 </div>
                             </a>
-                            <span class="block text-lg font-semibold"> Johnson smith </span>
+                            <span class="block text-lg font-semibold"> {{user}}</span>
                         </div>
                         <a href="#"> 
                             <i  class="icon-feather-more-horizontal text-2xl rounded-full p-2 transition -mr-1"></i>
@@ -175,15 +168,18 @@
                     </div>
                     <div class="story-content p-4" data-simplebar>
 
-                        <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </p>
+                        <p> {{p.caption}} </p> <br>
+                        {% for tag in p.tag.all  %}
+                            <a href="#"><strong> #{{tag}}  </strong></a> 
+                        {% endfor %}
                         
                         <div class="py-4 ">
                             <div class="flex justify-around">
                                 <a href="#" class="flex items-center space-x-3">
-                                    <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i> Like</div>
+                                    <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i>{{p.likes.count}} Like</div>
                                 </a>
                                 <a href="#" class="flex items-center space-x-3">
-                                    <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i> Comment</div>
+                                    <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i>{{comment.count}} Comment</div>
                                 </a>
                                 <a href="#" class="flex items-center space-x-3">
                                     <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i> Share</div>
@@ -191,43 +187,51 @@
                             </div>
                             <hr class="-mx-4 my-3">
                             <div class="flex items-center space-x-3"> 
-                                <div class="flex items-center">
+                                <!-- <div class="flex items-center">
                                     <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white">
                                     <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
                                     <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
-                                </div>
-                                <div>
-                                    Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
-                                </div>
+                                </div> -->
+                                
+                                <!-- {% if p.likes.count == 0 %}
+                                    <div>
+                                        <strong> 0 Like </strong>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <strong> {{p.likes.count}} Likes </strong>
+                                    </div>
+                                {% endif %}
+                                     -->
+                                
                             </div>
                         </div>
 
                     <div class="-mt-1 space-y-1">
-                        <div class="flex flex-1 items-center space-x-2">
-                            <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" class="rounded-full w-8 h-8">
-                            <div class="flex-1 p-2">
-                                consectetuer adipiscing elit, sed diam nonummy nibh euismod
+                        
+                        {% for comment in comments %}
+                            <div class="flex flex-1 items-center space-x-2">
+                                <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" class="rounded-full w-8 h-8">
+                                <div class="flex-1 p-2">
+                                    consectetuer adipiscing elit, sed diam nonummy nibh euismod
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="flex flex-1 items-center space-x-2">
-                            <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" class="rounded-full w-8 h-8">
-                            <div class="flex-1 p-2">
-                                consectetuer adipiscing elit
-                            </div>
-                        </div>
-
+                        {% endfor %}
+                         
                     </div>
 
 
                     </div>
                     <div class="p-3 border-t dark:border-gray-600">
                         <div class="bg-gray-200 dark:bg-gray-700 rounded-full rounded-md relative">
-                            <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-8 shadow-none">
-                            <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
-                                <a href="#"> <i class="uil-image"></i></a>
-                                <a href="#"> <i class="uil-video"></i></a>
-                            </div>
+                            <form method="post" >
+                                {% csrf_token %}
+                                <input type="text" name="body" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none">
+                                <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
+                                    <a href=""> <i class="uil-image"></i></a>
+                                    <a href=""> <i class="uil-video"></i></a>
+                                </div>
+                            </form>
                         </div>
                     </div>
 
@@ -235,6 +239,8 @@
 
         </div>
     </div>
+{% endfor %}
+
 
     {% endblock content %}
         

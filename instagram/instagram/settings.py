@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # instagram
     'post',
+    # profile
+    'user_profile',
 ]
 
 MIDDLEWARE = [

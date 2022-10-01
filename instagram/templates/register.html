@@ -38,21 +38,20 @@
 
                 <form method="POST" action="">
                     {% csrf_token %}
-                        <label class="label"> User name </label>
-                        {{form.username}} <br>
-
-                        <label class="label"> Email</label>
-                        {{form.email}} <br>
-                   
-                        <label class="label">First Password</label>
-                        {{form.password1}} <br>
-                   
-                        <label class="label"> Confirm Password </label>
-                        {{form.password2}} <br>
-                   
+                    
+                    <input type="email" name="email" placeholder="Email" class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
+                    <input type="text" name="username" placeholder="user name" class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
+                    <input type="password" name="password" placeholder=" Password" class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
+                    <div class="flex justify-start my-4 space-x-1">
+                        <div class="checkbox">
+                            <input type="checkbox" id="chekcbox1" checked>
+                            <label for="chekcbox1"><span class="checkbox-icon"></span> I Agree</label>
+                        </div>
+                        <a href="#"> Terms and Conditions</a>
+                    </div>
                     <button type="submit" class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full">Login</button>
                     <div class="text-center mt-5 space-x-2">
-                        <p class="text-base"> Do you have an account? <a href="{% url 'post:login' %}"> Login </a></p>
+                        <p class="text-base"> Do you have an account? <a href="form-login.html"> Login </a></p>
                     </div>
                 </form>
             </div>

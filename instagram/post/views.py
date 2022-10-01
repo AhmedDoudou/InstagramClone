@@ -1,3 +1,4 @@
+from multiprocessing import context
 from xml.etree.ElementTree import Comment
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -9,31 +10,21 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm, PostForm
 from django.contrib.auth.models import User
-from .models import Follow, Post,Stream, Tag, Like
+from .models import Follow, Post,Stream, Tag, Like, Comment
+from user_profile.models import Profile
 # Create your views here.
 @login_required(login_url='post:login')
 def index(request):
+    
     user        = request.user
-    post        = Post.objects.all().filter(user=user).count()
-    followers   = Follow.objects.all().filter(follower=user)
-    posts       = Stream.objects.all().filter(following=user).order_by("-date")
-    my_posts    = Post.objects.all().filter(user=user).order_by("-posted")
-    follower    = Follow.objects.all().filter(follower=user).count()
-    following   = Follow.objects.all().filter(following=user).count()
+    posts       = Stream.objects.all().filter(user=user)
     group_ids   = []
     for post in posts:
         group_ids.append(post.post_id)
     post_iteams = Post.objects.filter(id__in=group_ids).all().order_by('-posted')
     context = { 
-        "posts":posts,
         "post_iteams":post_iteams,
-        "follower":follower,
-        "post":post,
-        "follower":follower,
-        "following":following,
-        "my_posts":my_posts,
-
-        }
+         }
 
     return render(request, "feed.html",context)
 
@@ -43,8 +34,8 @@ def Profile(request,id):
     users       = User.objects.all()
     post        = Post.objects.all().filter(user=user).count()
     my_posts    = Post.objects.all().filter(user=user).order_by("-posted")
-    follower    = Follow.objects.all().filter(follower=user).count()
-    following   = Follow.objects.all().filter(following=user).count()
+    following   = Follow.objects.all().filter(following=user)
+    follower    = Follow.objects.all().filter(follower=user)
     context = {
         "user":user,
         "users":users,
@@ -57,6 +48,7 @@ def Profile(request,id):
 @login_required(login_url='post:login')  
 def Chat(request):
     return render(request,"chat.html")
+
 def Register(request):
     if request.user.is_authenticated:
         return redirect('post:home')
@@ -65,13 +57,15 @@ def Register(request):
         if request.method == 'POST':
             form = CreateUserForm(request.POST)
             if form.is_valid():
-                form.save()
+                user = form.save()
+                Profile.objects.create(user=user)
                 messages.success(request,'Account Is Created Successfully')
                 return redirect("post:login")
             else :
                 messages.error(request,'The Form is Invalid')
         context = {"form":form,}
         return render(request,"register.html",context)
+
 def Trending(request):
     users = User.objects.all()
     context = {
@@ -178,6 +172,129 @@ def AddLike(request,id):
 
     next = request.POST.get('next','/')   
     return HttpResponseRedirect(next)  
+
+def AddComment(request,id):
+    user = request.user
+    post = Post.objects.get(id=id)
+    if request.method=='POST':
+        body = request.POST.get("body")
+        comment = Comment.objects.create(user=user, post=post, body=body)
+        comment.save()
+        context={"comment":comment}
+        return redirect("post:home",context)
+    else:
+        return redirect("post:home")
+    
+def test(request):
+    user = request.user
+    post = Post.objects.filter(user=user)
+    return render(request,"test.html",{"post":post})
+# @login_required(login_url='base:login')
+# def room(request,pk):
+#     room = Room.objects.get(id=pk)
+#     participants = room.participants.all()
+#     room_messages = room.message_set.all().order_by('-created')
+#     if request.method =="POST":
+#         message = Message.objects.create(
+#             user=request.user,
+#             room = room,
+#             body = request.POST.get("body")
+#         )
+#         room.participants.add(request.user)
+#         return redirect("base:room", room.id)
+#     context = {'room':room,'room_messages':room_messages,'participants':participants}
+#     return render(request,'room/room.html', context)
+
+
+
+
+# def Register(request):
+#     if request.method=="POST":
+#         user_email = request.POST["email"]
+#         user_name = request.POST["username"]
+#         user_pass = request.POST["password"]
+#         try:
+#             user_obj = User.objects.create(username=user_name,email=user_email,password=user_pass)
+#             user_obj.set_password(user_pass)
+#             user_obj.save()
+#             user_auth = authenticate(username=user_name,password=user_pass)
+#             login(request,user_auth)
+#             return redirect('post:home')
+
+#         except:
+#             messages.add_message(request,messages.ERROR,'can not sign up')
+#             return render(request,'register.html')
+#     return render(request,'register.html')
+
+
+
+
+
+
+# post        = Post.objects.all().filter(user=user).count()
+    # followers   = Follow.objects.all().filter(follower=user)
+    # my_posts    = Post.objects.all().filter(user=user).order_by("-posted")
+    # follower    = Follow.objects.all().filter(follower=user).count()
+    # following   = Follow.objects.all().filter(following=user).count()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
