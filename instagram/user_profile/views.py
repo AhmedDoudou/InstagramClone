@@ -1,11 +1,13 @@
 from django.http import HttpResponseRedirect
 from django.db import transaction
 from .models import Profile
+from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.urls import resolve, reverse
 from post.models import Post,Stream, Follow
+from .forms import *
 
 
 def UserProfile(request,username):
@@ -35,6 +37,27 @@ def UserProfile(request,username):
 
     }
     return render(request,"user/profile.html",context)
+
+
+def EditProfile(request,username):
+    user    = request.user
+    profile = Profile.objects.get(user=user)
+    form    = ProfileForm(instance=profile)
+    if request.method == "POST":
+        form = ProfileForm(request.POST,request.FILES,instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The Profile is Edited Successfully!")
+            return redirect("user:profile", user.username)
+    else:
+        form = ProfileForm(instance=profile)
+        messages.error(request, "form is invalid !!!!!  ")
+
+    context = {
+        'form':form,
+        'profile':profile
+    }
+    return render(request,"user/edit.html" ,context)
 
 
 def FollowAction(request,username,option):

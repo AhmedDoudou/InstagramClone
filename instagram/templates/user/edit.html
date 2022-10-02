@@ -1,0 +1,67 @@
+{% extends 'includes/main.html' %}
+    {% load static %}
+    {% block content %}
+    {% include 'includes/sidebar.html' %}
+    {% include 'includes/header.html' %}
+        <div class="container m-auto "> 
+            <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"> Edit <b>{{profile}}</b> Profile </h1>
+             
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+            
+                <div class="grid lg:grid-cols-3 mt-12 gap-8">
+                    <div class="bg-white rounded-md lg:shadow-lg shadow col-span-2">
+                        <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
+                            <input type="text" name="user" class="bg-primary-700" value="{{request.user}}" readonly>
+                            <div class="col-span-2">
+                                <div>
+                                    <label class="mb-0"> Photos </label>
+                                </div>
+                                <div uk-form-custom class="w-full">
+                                    <div class="bg-gray-100 border-2 border-dashed flex flex-col h-32 items-center justify-center relative w-full rounded-lg dark:bg-gray-800 dark:border-gray-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
+                                            <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
+                                            <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
+                                        </svg>
+                                    </div>
+                                    {{form.profile_pic}}
+                                </div> 
+                            </div>
+                            <div>
+                                <label for=""> First name</label>
+                                {{form.first_name}}
+                            </div>
+                            <div>
+                                <label for=""> Last name</label>
+                                {{form.last_name}}
+                                </div>
+                                <div class="col-span-2">
+                                    <label for=""> Bio</label>
+                                    {{form.bio}}
+                                </div>
+                                <div class="col-span-2">
+                                    <label for=""> Url</label>
+                                    {{form.url}}
+                                </div>
+                                <div class="col-span-2">
+                                    <label for=""> Location</label>
+                                    {{form.location}}
+                                </div>
+                        </div> 
+                        <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
+                            <button class="p-2 px-4 rounded bg-gray-50 text-red-500"> Cancel </button>
+                            <input type="submit" class="button bg-blue-700" value="Save">
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+            
+            
+
+        </div>
+
+
+
+
+{% endblock content %}

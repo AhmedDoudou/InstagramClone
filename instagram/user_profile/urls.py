@@ -8,5 +8,7 @@ urlpatterns = [
      # profile
     path('<username>/', UserProfile, name='profile'),
     path('<username>/follow/<option>', FollowAction, name='follow'),
+    path('<username>/edit/', EditProfile, name='edit_profile'),
+
 
 ]

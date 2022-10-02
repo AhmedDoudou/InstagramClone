@@ -26,17 +26,22 @@
 
                     <div class="lg:w/8/12 flex-1 flex flex-col lg:items-start items-center"> 
 
-                        <h2 class="font-semibold lg:text-2xl text-lg mb-2"> {{profile.user.username}}</h2>
+                        <h2 class="font-semibold lg:text-2xl text-lg mb-2"> {{profile.first_name}} {{profile.last_name}}</h2>
+                        <h3 class="font-semibold text-lg mb-2"> @{{profile.user}}</h3>
+                        
                         <p class="lg:text-left mb-2 text-center  dark:text-gray-100"> {{profile.bio}}</p>
 
                             <div class="flex font-semibold mb-3 space-x-2  dark:text-gray-10">
-                                <a href="{{profile.url}}">{{profile.url}}</a> 
+                                <li><a href="{{profile.url}}">{{profile.url}}</a> </li>
+                            </div>
+                            <div class="flex font-semibold mb-3 space-x-2  dark:text-gray-10">
+                               <li><a href="#">{{profile.location}}</a></li> 
                             </div>
 
                             
                             <div class="capitalize flex font-semibold space-x-3 text-center text-sm my-2">
                                 {% if request.user == profile.user %} 
-                                    <a href="#" class="bg-gray-300 shadow-sm p-2 px-6 rounded-md dark:bg-gray-700"> Edit Profile</a>
+                                    <a href="{% url 'user:edit_profile' profile.user %}" class="bg-gray-300 shadow-sm p-2 px-6 rounded-md dark:bg-gray-700"> Edit Profile</a>
                                 {% endif %}
                                 {% if follow_status %}
                                     <a href="{% url 'user:follow' profile.user 0 %}" class="bg-pink-500 shadow-sm p-2 pink-500 px-6 rounded-md dark:bg-gray-700"> UnFollow</a>
