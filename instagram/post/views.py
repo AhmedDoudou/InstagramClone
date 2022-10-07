@@ -1,3 +1,4 @@
+from imp import reload
 from multiprocessing import context
 from xml.etree.ElementTree import Comment
 from django.shortcuts import get_object_or_404
@@ -8,24 +9,24 @@ from django.contrib import messages
 from django.views.generic import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import CreateUserForm, PostForm
+from .forms import CommentForm, CreateUserForm, PostForm
 from django.contrib.auth.models import User
-from .models import Follow, Post,Stream, Tag, Like, Comment
-from user_profile.models import Profile
+from .models import Commenter, Follow, Post,Stream, Tag, Like
+from user_profile.models import Profile, UserComment
 # Create your views here.
 @login_required(login_url='post:login')
 def index(request):
-    
     user        = request.user
     posts       = Stream.objects.all().filter(user=user)
+    comments    = UserComment.objects.all()
     group_ids   = []
     for post in posts:
         group_ids.append(post.post_id)
     post_iteams = Post.objects.filter(id__in=group_ids).all().order_by('-posted')
     context = { 
         "post_iteams":post_iteams,
+        'comments':comments
          }
-
     return render(request, "feed.html",context)
 
 @login_required(login_url='post:login')
@@ -154,7 +155,20 @@ def post(request,id):
 def DetailPost(request,id):
     user = request.user
     post = Post.objects.get(id=id)
-    context = {"post":post}
+    comments = Commenter.objects.filter(post=post).order_by('-created')
+    form = CommentForm()
+    if request.method=='POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            comm = form.save()
+            comm.user = request.user
+            comm.post = Post.objects.get(id=id)
+            comm.save()
+            return HttpResponseRedirect(reverse("post:home"), args=[id])
+        else:
+            form = CommentForm()
+    context = {"post":post,'comments':comments}
     return render(request, "post/detail.html",context)
 
 def AddLike(request,id):
@@ -173,17 +187,34 @@ def AddLike(request,id):
     next = request.POST.get('next','/')   
     return HttpResponseRedirect(next)  
 
-def AddComment(request,id):
-    user = request.user
-    post = Post.objects.get(id=id)
-    if request.method=='POST':
-        body = request.POST.get("body")
-        comment = Comment.objects.create(user=user, post=post, body=body)
+def comment(request,id):
+    user        = request.user # get user 
+    post        = Post.objects.get(id=id)
+    comments    = UserComment.objects.all()
+    if request.method=="POST":
+        body    = request.POST.get("body")
+        comment = UserComment.objects.create(user=user,post=post,body=body)
         comment.save()
-        context={"comment":comment}
-        return redirect("post:home",context)
-    else:
         return redirect("post:home")
+    context = {
+        "post":post,
+        "comments":comments
+    }
+    return render(request, "feed.html",context)
+
+
+# def AddComment(request,id):
+#     user = request.user.id
+#     post = Post.objects.get(id=id)
+#     comments = Commenter.objects.filter(post=post,user=user).order_by('-created')
+#     form = CommentForm()
+#     if request.method=='POST':
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             form.save
+#             return HttpResponseRedirect(request.path_info)
+#     context={"comments":comments}
+#     return render(request, "user/test.html",context)
     
 def test(request):
     user = request.user

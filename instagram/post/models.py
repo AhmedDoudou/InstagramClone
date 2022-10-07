@@ -68,15 +68,15 @@ class Stream(models.Model):
         return self.following.username+ ' | ' +self.post.caption
 post_save.connect(Stream.add_post, sender=Post)
 
-class Comment(models.Model):
+class Commenter(models.Model):
     user    = models.ForeignKey(User, on_delete=models.CASCADE)
-    post    = models.ForeignKey('Post', on_delete=models.CASCADE)
+    post    = models.ForeignKey(Post, on_delete=models.CASCADE)
     body    = models.TextField()
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.body+ ' | ' +self.post.caption
+        return self.body
     
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liker")

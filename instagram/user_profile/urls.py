@@ -9,6 +9,8 @@ urlpatterns = [
     path('<username>/', UserProfile, name='profile'),
     path('<username>/follow/<option>', FollowAction, name='follow'),
     path('<username>/edit/', EditProfile, name='edit_profile'),
+    path('<username>/<str:id>/', comment, name='comment'),
+
 
 
 ]

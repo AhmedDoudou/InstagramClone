@@ -21,7 +21,7 @@
                     <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}"
                         class="bg-gray-200 border-4 border-white rounded-full w-full h-full">
                 </div>
-                <a href="{% url 'post:profile' user.id %}" class="text-xl font-medium capitalize mt-4 uk-link-reset"> {{request.user.username}}
+                <a href="{% url 'post:profile' user.username %}" class="text-xl font-medium capitalize mt-4 uk-link-reset"> {{request.user.username}}
                 </a>
                 <div class="flex justify-around w-full items-center text-center uk-link-reset text-gray-800 mt-6">
                     <div>

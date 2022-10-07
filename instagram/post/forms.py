@@ -29,4 +29,10 @@ class PostForm(forms.ModelForm):
 
 
 
+class CommentForm(forms.ModelForm):
+    body = forms.CharField(required=True, max_length=100,widget=forms.TextInput(attrs={'class': 'shadow-none bg-gray-100','placeholder': 'Write Your comment ...'}))
+    class Meta:
+        model = Commenter
+        fields = ['body']
+
 

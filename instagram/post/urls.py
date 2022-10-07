@@ -1,12 +1,13 @@
 
 from django.urls import path
-from .views import *
+from .views import index, Register, Login, Logout, Chat, Trending, test, PostCreate,comment, PostEdit, DetailPost, AddLike
+from user_profile.views import UserProfile
 
 
 app_name='post'
 urlpatterns = [
     path('', index, name='home'),
-    path('profile/<int:id>/', Profile, name='profile'),
+    path('<username>/', UserProfile, name='profile'),
     path('register/', Register, name='register'),
     path('login/', Login, name='login'),
     path('logout/', Logout, name='logout'),
@@ -18,7 +19,8 @@ urlpatterns = [
     path('edit/<str:id>/', PostEdit, name='edit'),
     path('detail/<str:id>/', DetailPost, name='detail'),
     path('post/<str:id>/like/', AddLike, name='like'),
-    path('post/<str:id>/comment/', AddLike, name='comment'),
+    path('post/<str:id>/comment/', comment, name='comment'),
+
    
 
 

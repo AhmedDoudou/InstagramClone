@@ -78,8 +78,20 @@ def FollowAction(request,username,option):
     except User.DoesNotExist:
         return HttpResponseRedirect(reverse("user:profile", args=[username]))
 
-
-
+def comment(request,username,id):
+    user        = get_object_or_404(User,username=username) # get user 
+    post        = Post.objects.get(id=id)
+    comments    = UserComment.objects.filter(post=post)
+    if request.method=="POST":
+        body    = request.POST.get("body")
+        comment = UserComment.objects.create(user=user,post=post,body=body)
+        comment.save()
+        return HttpResponseRedirect(request.path_info)
+    context = {
+        "post":post,
+        "comments":comments
+    }
+    return render(request,"user/test.html",context)
 
 
 
