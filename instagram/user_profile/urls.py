@@ -11,6 +11,4 @@ urlpatterns = [
     path('<username>/edit/', EditProfile, name='edit_profile'),
     path('<username>/<str:id>/', comment, name='comment'),
 
-
-
 ]

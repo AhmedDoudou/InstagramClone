@@ -45,7 +45,7 @@
                                 {% endif %}
                                 {% if follow_status %}
                                     <a href="{% url 'user:follow' profile.user 0 %}" class="bg-pink-500 shadow-sm p-2 pink-500 px-6 rounded-md dark:bg-gray-700"> UnFollow</a>
-                                    <a href="#" class="bg-pink-500 shadow-sm p-2 pink-500 px-6 rounded-md text-white hover:text-white hover:bg-pink-600"> Send message</a>
+                                    <a href="{% url 'message:chat' %}" class="bg-pink-500 shadow-sm p-2 pink-500 px-6 rounded-md text-white hover:text-white hover:bg-pink-600"> Send message</a>
                                 {% else %}
                                     <a href="{% url 'user:follow' profile.user 1 %}" class="bg-pink-500 shadow-sm p-2 pink-500 px-6 rounded-md dark:bg-gray-700">Follow</a>
                                 {% endif %}

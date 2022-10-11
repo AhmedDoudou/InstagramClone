@@ -155,7 +155,7 @@
                 <!-- profile -->
             <ul>
                 <li>
-                    <a href="{% url 'post:profile' user.id %}"> 
+                    <a href="{% url 'user:profile' request.user.username %}"> 
                     <span> {{request.user}} </span> </a> 
                 </li>
             </ul>

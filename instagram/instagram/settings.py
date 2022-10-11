@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'post',
     # profile
     'user_profile',
+    # message
+    'message',
 ]
 
 MIDDLEWARE = [
