@@ -18,8 +18,12 @@
             <div class="flex flex-col items-center my-6 uk-visible@s">
                 <div
                     class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full transition m-0.5 mr-2  w-24 h-24">
-                    <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}"
-                        class="bg-gray-200 border-4 border-white rounded-full w-full h-full">
+                    
+                    {% if profile.profile_pic %}
+                                <img src="{{ profile.profile_pic.url}}" class="bg-gray-200 border-4 border-white rounded-full w-full h-full dark:border-gray-900">
+                            {% else  %}
+                                <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" class="bg-gray-200 border-4 border-white rounded-full w-full h-full dark:border-gray-900">
+                            {% endif %}
                 </div>
                 <a href="{% url 'user:profile' request.user.username %}" class="text-xl font-medium capitalize mt-4 uk-link-reset"> {{request.user.username}}
                 </a>
@@ -27,19 +31,19 @@
                     <div>
                         <a href="#">
                             <strong>Post</strong>
-                            <div> {{post.count}}</div>
+                            <div> {{request.user.post.count}}</div>
                         </a>
                     </div>
                     <div>
                         <a href="#">
                             <strong>Followers</strong>
-                            <div> {{follower.count}}</div>
+                            <div> {{request.user.follower.count}}</div>
                         </a>
                     </div>
                     <div>
                         <a href="#">
                             <strong>Following</strong>
-                            <div> {{following.count}}</div>
+                            <div> {{request.user.following.count}}</div>
                         </a>
                     </div>
                 </div>
@@ -61,7 +65,7 @@
                         <span> Explore </span> </a> 
                 </li>
                 <li>
-                    <a href="{% url 'post:chat' %}"> 
+                    <a href="{% url 'message:chat' %}"> 
                         <i class="uil-location-arrow"></i>
                         <span> Messages </span> <span class="nav-tag"> 3</span>  </a> 
                 </li>

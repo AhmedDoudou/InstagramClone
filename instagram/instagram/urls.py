@@ -23,8 +23,9 @@ from user_profile.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('post.urls', namespace='post')),
-    path('profile/',include('user_profile.urls', namespace='user')),
+    path('profile/',include('user_profile.urls', namespace='user_profile')),
     path('message/',include('message.urls', namespace='message')),
+    path('ajax/',include('ajax_test.urls', namespace='test')),
 
 
 ]

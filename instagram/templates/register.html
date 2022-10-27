@@ -15,7 +15,7 @@
                     <a href="trending.html">
                         <img src="{% static 'assets/images/logo.png' %}" alt="" class="w-32">
                     </a>
-
+                    
                     <div class="capitalize flex font-semibold hidden lg:block my-2 space-x-3 text-center text-sm">
                         <a href="{% url 'post:login' %}" class="py-3 px-4">Login</a>
                         <a href="{% url 'post:register' %}" class="bg-pink-500 pink-500 px-6 py-3 rounded-md shadow text-white">Register</a>
@@ -33,26 +33,17 @@
                 <h1 class="lg:text-3xl text-xl font-semibold mb-6"> Sign in</h1>
                 
                 {% for message in messages %}
-                    <p class="mb-2 text-black text-lg bg-red-500">{{message}}</p>
+                    <p class="mb-2 text-blue bg-red-300">{{message}}</p>
                 {% endfor %}
-
                 <form method="POST" action="">
                     {% csrf_token %}
                     
-                    <input type="email" name="email" placeholder="Email" class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
-                    <input type="text" name="username" placeholder="user name" class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
-                    <input type="password" name="password" placeholder=" Password" class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
-                    <div class="flex justify-start my-4 space-x-1">
-                        <div class="checkbox">
-                            <input type="checkbox" id="chekcbox1" checked>
-                            <label for="chekcbox1"><span class="checkbox-icon"></span> I Agree</label>
-                        </div>
-                        <a href="#"> Terms and Conditions</a>
-                    </div>
-                    <button type="submit" class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full">Login</button>
-                    <div class="text-center mt-5 space-x-2">
-                        <p class="text-base"> Do you have an account? <a href="form-login.html"> Login </a></p>
-                    </div>
+                    {% for field in form %}
+                        {{field.label}}<br>
+                        {{field}}<br>
+                    {% endfor %}
+                     
+                    <input type="submit" value="submit">
                 </form>
             </div>
         </div>

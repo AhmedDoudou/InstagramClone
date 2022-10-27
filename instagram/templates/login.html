@@ -28,13 +28,11 @@
         <!-- Content-->
         <div>
             <div class="lg:p-12 max-w-md max-w-xl lg:my-0 my-12 mx-auto p-6 space-y-">
-                <h1 class="lg:text-3xl text-xl font-semibold  mb-6"> Log in</h1>
-                <p class="mb-2 text-black text-lg"> Email or Username</p>
+                <h1 class="lg:text-3xl text-xl font-semibold  mb-6 bg-red-600"> Log in</h1>
+                <p class="mb-2 text-black text-lg "> Email or Username</p>
                 
                 {% for message in messages %}
-                <div class="alert alert-success" role="alert">
-                    {{message}}
-                  </div>
+                <p class="mb-2 text-black text-lg text-center" style="background-color: rgb(252 165 165); border-radius: 15px; ">{{message}}</p>
                 {% endfor %}
                     
                 <form method="POST" action="">

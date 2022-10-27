@@ -8,11 +8,13 @@
                 
                 <!-- profile-cover-->
                 <div class="flex lg:flex-row flex-col items-center lg:py-8 lg:space-x-8">
-
                     <div>
-                        <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full m-0.5 mr-2  w-56 h-56 relative overflow-hidden uk-transition-toggle">  
-                            <img src="{{ profile.profile_pic.url}}" class="bg-gray-200 border-4 border-white rounded-full w-full h-full dark:border-gray-900">
-
+                        <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full m-0.5 mr-2  w-56 h-56 relative overflow-hidden uk-transition-toggle">
+                            {% if profile.profile_pic %}
+                                <img src="{{ profile.profile_pic.url}}" class="bg-gray-200 border-4 border-white rounded-full w-full h-full dark:border-gray-900">
+                            {% else  %}
+                                <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" class="bg-gray-200 border-4 border-white rounded-full w-full h-full dark:border-gray-900">
+                            {% endif %}
                             <div class="absolute -bottom-3 custom-overly1 flex justify-center pt-4 pb-7 space-x-3 text-2xl text-white uk-transition-slide-bottom-medium w-full">
                                 <a href="#" class="hover:text-white">
                                     <i class="uil-camera"></i>
@@ -55,6 +57,7 @@
                                 <a href="#" class="bg-gray-300 flex h-12 h-full items-center justify-center rounded-full text-xl w-9 dark:bg-gray-700"> 
                                     <i class="icon-feather-chevron-down"></i> 
                                 </a>
+                                
                                 <!-- <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base dark:bg-gray-900" uk-drop="mode: click">
                               
                                   <ul class="space-y-1">
@@ -84,7 +87,7 @@
                                   </ul>
                               
                                 </div> -->
-
+                                
                                 </div>
                             </div>
                             <div class="divide-gray-300 divide-transparent divide-x grid grid-cols-3 lg:text-left lg:text-lg mt-3 text-center w-full dark:text-gray-100">
@@ -95,6 +98,26 @@
                     </div>
                     <div class="w-20"></div>
                 </div>
+                <div class="divide-gray-300 divide-gray-50 divide-opacity-50 divide-y px-4 dark:divide-gray-800 dark:text-gray-100">
+                               
+                               
+                    <div class="flex items-center justify-between py-3">
+                    {% for user in random_items %}
+                        <div class="flex flex-1 items-center space-x-4">
+                            <a href="profile.html">
+                                <img src="{{profile.profile_pic.url}}" class="bg-gray-200 rounded-full w-10 h-10">
+                            </a>
+                            <div class="flex flex-col">
+                                <span class="block capitalize font-semibold"> {{user.profile.username}} </span>
+                                <span class="block capitalize text-sm"> @{{user.first_name}}</span>
+                            </div>
+                            
+                        </div>
+                        <a href="#" class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 dark:border-gray-800"> Follow </a>
+                    {% endfor %}
+                    </div>
+                    
+            </div>
                     <h1 class="font-extrabold leading-none mb-6 mt-8 lg:text-2xl text-lg text-gray-900 tracking-tight"> Explore ({{posts.count}})</h1>
                     <div class="mt-6 grid lg:grid-cols-3 grid-cols-2 gap-3 hover:text-yellow-700 uk-link-reset">
                         {% for p in posts %}
@@ -105,7 +128,7 @@
                                 </a>
                                 <div
                                     class="flex flex-1 items-center absolute bottom-0 w-full p-3 text-white custom-overly1 uk-transition-slide-bottom-medium">
-                                    <a href="{% url 'post:profile' user.id %}" class="lg:flex flex-1 items-center hidden">
+                                    <a href="{% url 'user:profile' user.id %}" class="lg:flex flex-1 items-center hidden">
                                         <div
                                             class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full transform -rotate-2 hover:rotate-3 transition hover:scale-105 m-0.5 mr-2">
                                             <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" class="bg-gray-200 border border-white rounded-full w-8">
@@ -120,9 +143,14 @@
                             </div>
                         </div>
                         {% endfor %}
+                        
                     </div>
     
     </div>
+    <div class="divide-gray-300 divide-gray-50 divide-opacity-50 divide-y px-4 dark:divide-gray-800 dark:text-gray-100">
+                               
+                    
+</div>
     
               <!-- zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz -->
    <!-- Story modal -->

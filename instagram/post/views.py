@@ -1,5 +1,4 @@
 from imp import reload
-from multiprocessing import context
 from xml.etree.ElementTree import Comment
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -9,28 +8,34 @@ from django.contrib import messages
 from django.views.generic import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import CommentForm, CreateUserForm, PostForm
+from .forms import CommentForm,  PostForm, AccountForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Commenter, Follow, Post,Stream, Tag, Like
 from user_profile.models import Profile, UserComment
+import json
+from django.http import HttpResponseBadRequest, JsonResponse
 # Create your views here.
 @login_required(login_url='post:login')
 def index(request):
     user        = request.user
     posts       = Stream.objects.all().filter(user=user)
     comments    = UserComment.objects.all()
+    profile_pics = Profile.objects.all()
     group_ids   = []
     for post in posts:
         group_ids.append(post.post_id)
     post_iteams = Post.objects.filter(id__in=group_ids).all().order_by('-posted')
     context = { 
         "post_iteams":post_iteams,
-        'comments':comments
+        'comments':comments,
+        'profile_pics':profile_pics,
+
          }
     return render(request, "feed.html",context)
 
 @login_required(login_url='post:login')
-def Profile(request,id):
+def UserProfile(request,id):
     user        = User.objects.get(id=id)
     users       = User.objects.all()
     post        = Post.objects.all().filter(user=user).count()
@@ -50,23 +55,34 @@ def Profile(request,id):
 def Chat(request):
     return render(request,"chat.html")
 
-def Register(request):
-    if request.user.is_authenticated:
-        return redirect('post:home')
-    else:
-        form = CreateUserForm()
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                user = form.save()
-                Profile.objects.create(user=user)
-                messages.success(request,'Account Is Created Successfully')
-                return redirect("post:login")
-            else :
-                messages.error(request,'The Form is Invalid')
-        context = {"form":form,}
-        return render(request,"register.html",context)
+# def Register(request):
+#     if request.user.is_authenticated:
+#         return redirect('post:home')
+#     else:
+#         form = UserCreationForm()
+#         if request.method=='POST':
+#             form = UserCreationForm(request.POST)
+#             if form.is_valid():
+#                 form.save
+#                 return redirect("post:login")
+#             else:
+#                 messages.error(request, 'Invalid User form')
+#         context = {"form":form}
+#         return render(request,"register.html",context)
 
+def CreatAccount(request):
+    form = AccountForm()
+    if request.method =="POST":
+        form = AccountForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request,user)
+            messages.success(request, "Registration successful." )
+            return redirect("post:login")
+        else:
+            messages.error(request, "Form Invalid" )
+    context = {"form":form}
+    return render(request,"register.html",context)
 def Trending(request):
     users = User.objects.all()
     context = {
@@ -202,6 +218,23 @@ def comment(request,id):
     }
     return render(request, "feed.html",context)
 
+    
+def test(request):
+    user = request.user
+    post = Post.objects.filter(user=user)
+    return render(request,"test.html",{"post":post})
+
+def Posts(request):
+    # request.is_ajax() is deprecated since django 3.1
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        if request.method == 'GET':
+            posts = list(Post.objects.all().values())
+            return JsonResponse({'context': posts})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    else:
+        return HttpResponseBadRequest('Invalid request')
 
 # def AddComment(request,id):
 #     user = request.user.id
@@ -215,11 +248,7 @@ def comment(request,id):
 #             return HttpResponseRedirect(request.path_info)
 #     context={"comments":comments}
 #     return render(request, "user/test.html",context)
-    
-def test(request):
-    user = request.user
-    post = Post.objects.filter(user=user)
-    return render(request,"test.html",{"post":post})
+
 # @login_required(login_url='base:login')
 # def room(request,pk):
 #     room = Room.objects.get(id=pk)

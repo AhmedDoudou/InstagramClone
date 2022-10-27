@@ -8,12 +8,14 @@ from django.core.paginator import Paginator
 from django.urls import resolve, reverse
 from post.models import Post,Stream, Follow
 from .forms import *
+import random
 
 
 def UserProfile(request,username):
     user        = get_object_or_404(User,username=username) # get user 
     profile     = Profile.objects.get(user=user)    # get user profile
     url_name    = resolve(request.path).url_name   # get the path 
+    post        = Post.objects.all().filter(user=user)
     if url_name == 'profile':
         posts   = Post.objects.filter(user=user).order_by('-posted')
     else:
@@ -26,9 +28,16 @@ def UserProfile(request,username):
     paginator = Paginator(posts,3)
     page_number =request.GET.get('page')
     posts_paginator = paginator.get_page(page_number)
+    # Suggestions Friends
+    suggestion_user = list(Profile.objects.all())
+    random_items = random.sample(suggestion_user, 3)
+    # Suggestions Posts
+
     context = {
         'posts_paginator':posts_paginator,
         'posts':posts,
+        'post':post,
+        'random_items':random_items,
         'profile':profile,
         'user':user,
         'following':following,

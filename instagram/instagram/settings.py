@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'user_profile',
     # message
     'message',
+     # ajax_test
+    'ajax_test',
 ]
 
 MIDDLEWARE = [

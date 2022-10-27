@@ -4,224 +4,65 @@
     {% block content %}
     {% include 'includes/sidebar.html' %}
     {% include 'includes/header.html' %}
-    <div class="container pro-container m-auto">
-                
-                <!-- profile-cover-->
-                <div class="flex lg:flex-row flex-col items-center lg:py-8 lg:space-x-8">
+<div id="wrapper">
+        <div class="main_content">
+            <div class="container m-auto">
+                <div class="container-fluid">
+                    <div class="">
+                        <h2>Cars </h2>
+                        <ul id="display">
 
-                    <div>
-                        <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full m-0.5 mr-2  w-56 h-56 relative overflow-hidden uk-transition-toggle">  
-                            <img src="{% static 'assets/images/avatars/avatar-7.jpg' %}" class="bg-gray-200 border-4 border-white rounded-full w-full h-full dark:border-gray-900">
-
-                            <div class="absolute -bottom-3 custom-overly1 flex justify-center pt-4 pb-7 space-x-3 text-2xl text-white uk-transition-slide-bottom-medium w-full">
-                                <a href="#" class="hover:text-white">
-                                    <i class="uil-camera"></i>
-                                </a>
-                                <a href="#" class="hover:text-white">
-                                    <i class="uil-crop-alt"></i>
-                                </a>
-                            </div>
-                        </div>
+                        </ul>
                     </div>
-
-                    <div class="lg:w/8/12 flex-1 flex flex-col lg:items-start items-center"> 
-
-                        <h2 class="font-semibold lg:text-2xl text-lg mb-2"> {{request.user.username}}</h2>
-                        <p class="lg:text-left mb-2 text-center  dark:text-gray-100"> Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet 
-                            doming id quod mazim placerat facer possim assum</p>
-
-                            <div class="flex font-semibold mb-3 space-x-2  dark:text-gray-10">
-                                <a href="#">Travailing</a> , <a href="#">Sports</a>  , <a href="#">Movies</a> 
-                            </div>
-
-                            
-                            <div class="capitalize flex font-semibold space-x-3 text-center text-sm my-2">
-                                <a href="#" class="bg-gray-300 shadow-sm p-2 px-6 rounded-md dark:bg-gray-700"> Add friend</a>
-                                <a href="#" class="bg-pink-500 shadow-sm p-2 pink-500 px-6 rounded-md text-white hover:text-white hover:bg-pink-600"> Send message</a>
-                                <div>
-
-                                <a href="#" class="bg-gray-300 flex h-12 h-full items-center justify-center rounded-full text-xl w-9 dark:bg-gray-700"> 
-                                    <i class="icon-feather-chevron-down"></i> 
-                                </a>
-                                    
-                                <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base dark:bg-gray-900" uk-drop="mode: click">
-                              
-                                  <ul class="space-y-1">
-                                    <li> 
-                                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-700">
-                                         <i class="uil-user-minus mr-2"></i>Unfriend
-                                        </a> 
-                                    </li>
-                                    <li> 
-                                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-700">
-                                         <i class="uil-eye-slash  mr-2"></i>Hide Your Story
-                                        </a> 
-                                    </li>
-                                    <li> 
-                                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-700">
-                                         <i class="uil-share-alt mr-2"></i> Share This Profile
-                                        </a> 
-                                    </li>
-                                    <li>
-                                      <hr class="-mx-2 my-2  dark:border-gray-700">
-                                    </li>
-                                    <li> 
-                                        <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md dark:hover:bg-red-600">
-                                         <i class="uil-stop-circle mr-2"></i> Block
-                                        </a> 
-                                    </li>
-                                  </ul>
-                              
-                                </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="divide-gray-300 divide-transparent divide-x grid grid-cols-3 lg:text-left lg:text-lg mt-3 text-center w-full dark:text-gray-100">
-                                <div class="flex lg:flex-row flex-col"> {{post.count}} <strong class="lg:pl-2">Posts</strong></div>
-                                <div class="lg:pl-4 flex lg:flex-row flex-col"> {{follower.count}} <strong class="lg:pl-2">Followers</strong></div>
-                                <div class="lg:pl-4 flex lg:flex-row flex-col"> {{following.count}} <strong class="lg:pl-2">Following</strong></div>
-                            </div>
- 
-                    </div>
-
-                    <div class="w-20"></div>
-
+                    <form method="post" id="post-form" >
+                     {% csrf_token %}
+                     <input type="text" name="nick_name" id="nick_name">
+                     <input type="text" name="first_name" id="first_name">
+                     <input type="text" name="last_name" id="last_name">
+                     <input type="submit" >
+                    </form>
                 </div>
-                
-
-                    <h1 class="font-extrabold leading-none mb-6 mt-8 lg:text-2xl text-lg text-gray-900 tracking-tight"> Explore ({{post.count}})</h1>
-
-                    <div class="mt-6 grid lg:grid-cols-3 grid-cols-2 gap-3 hover:text-yellow-700 uk-link-reset">
-                        {% for p in post %}
-                        <div>
-                            <div
-                                class="bg-red-400 max-w-full lg:h-60 h-48 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                <a href="#story-modal{{p.id}}" uk-toggle>
-                                    <img src="{{p.picture.url}}"
-                                        class="w-full h-full absolute object-cover inset-0">
-                                </a>
-                                <a href="#story-modal{{p.id}}" uk-toggle
-                                    class="absolute flex h-full items-center justify-center w-8 w-full uk-transition-scale-up bg-black bg-opacity-10">
-                                    <img src="{{p.picture.url}}" alt="" class="w-16 h-16 -mt-5">
-                                </a>
-                                <div
-                                    class="flex flex-1 items-center absolute bottom-0 w-full p-3 text-white custom-overly1 uk-transition-slide-bottom-medium">
-                                    <a href="profile.html" class="lg:flex flex-1 items-center hidden">
-                                        <div
-                                            class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full transform -rotate-2 hover:rotate-3 transition hover:scale-105 m-0.5 mr-2">
-                                            <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}"
-                                                class="bg-gray-200 border border-white rounded-full w-8">
-                                        </div>
-                                        <div> {{p.user}} </div>
-                                    </a>
-                                    <div class="flex space-x-2 flex-1 lg:flex-initial justify-around">
-                                        <a href="#"> <i class="uil-heart"></i> {{p.likes.count}} </a>
-                                        <!-- <a href="#"> <i class="uil-heart"></i>  </a> -->
-                                    </div>
-                                </div>
-    
-                            </div>
-                        </div>
-                        {% endfor %}
-    
-                    </div>
-    
-    </div->
-    
-              <!-- zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz -->
-   <!-- Story modal -->
-   {% for p in post %}
-    <div id="story-modal{{p.id}}" class="uk-modal-container" uk-modal>
-        <div class="uk-modal-dialog story-modal">
-            <button class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white" type="button" uk-close></button>
-
-                <div class="story-modal-media">
-                    <img src="{{p.picture.url}}" alt=""  class="inset-0 h-full w-full object-cover">
-                </div>
-                <div class="flex-1 bg-white dark:bg-gray-900 dark:text-gray-100">
-                
-                    <!-- post header-->
-                    <div class="border-b flex items-center justify-between px-5 py-3 dark:border-gray-600">
-                        <div class="flex flex-1 items-center space-x-4">
-                            <a href="#">
-                                <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">
-                                    <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}"
-                                        class="bg-gray-200 border border-white rounded-full w-8 h-8">
-                                </div>
-                            </a>
-                            <span class="block text-lg font-semibold"> Johnson smith </span>
-                        </div>
-                        <a href="#"> 
-                            <i  class="icon-feather-more-horizontal text-2xl rounded-full p-2 transition -mr-1"></i>
-                        </a>
-                    </div>
-                    <div class="story-content p-4" data-simplebar>
-
-                        <p> {{p.caption}} </p>
-                        
-                        <div class="py-4 ">
-                            <div class="flex justify-around">
-                                <a href="#" class="flex items-center space-x-3">
-                                    <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i> Like</div>
-                                </a>
-                                <a href="#" class="flex items-center space-x-3">
-                                    <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i> Comment</div>
-                                </a>
-                                <a href="#" class="flex items-center space-x-3">
-                                    <div class="flex font-bold items-baseline"> <i class="uil-heart mr-1"> </i> Share</div>
-                                </a>
-                            </div>
-                            <hr class="-mx-4 my-3">
-                            <div class="flex items-center space-x-3"> 
-                                <div class="flex items-center">
-                                    <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white">
-                                    <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
-                                    <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white -ml-2">
-                                </div>
-                                <div>
-                                    Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
-                                </div>
-                            </div>
-                        </div>
-
-                    <div class="-mt-1 space-y-1">
-                        <div class="flex flex-1 items-center space-x-2">
-                            <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" class="rounded-full w-8 h-8">
-                            <div class="flex-1 p-2">
-                                consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                            </div>
-                        </div>
-
-                        <div class="flex flex-1 items-center space-x-2">
-                            <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" class="rounded-full w-8 h-8">
-                            <div class="flex-1 p-2">
-                                consectetuer adipiscing elit
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    </div>
-                    <div class="p-3 border-t dark:border-gray-600">
-                        <div class="bg-gray-200 dark:bg-gray-700 rounded-full rounded-md relative">
-                            <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-8 shadow-none">
-                            <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
-                                <a href="#"> <i class="uil-image"></i></a>
-                                <a href="#"> <i class="uil-video"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
+            </div>
         </div>
-    </div>
-{% endfor %}
+</div> 
+<script>
+    $(document).ready(function(){
+            setInterval(function(){
+                $.ajax({
+                type: 'GET',
+                url: "{% url 'ajax:getProfiles' %}",
+                success: function(response){
+                    console.log(response);
+                    $("#display").empty();
+                    for (var key in response.profiles)
+                    {
+                        var temp = "<li class='list'><b>"+response.profiles[key].nick_name+"</b></li>";
+                        $("#display").append(temp);
+                    }
+                },
+                error: function(){
+                    alert("Data Error")
+                }
+            });
+        },1000);
+    });
+    $(document).on('submit','#post-form',function(e){
+            e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'ajax:create' %}",
+                    data:{
+                        nick_name:$("#nick_name").val(),
+                        first_name:$("#first_name").val(),
+                        last_name:$("#last_name").val(),
+                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                    },
+                    success: function(data){
+                    alert(data);
+                    }
+                });
+            });
 
+</script>
 
-    {% endblock content %}
-        
-
+{% endblock content %}
