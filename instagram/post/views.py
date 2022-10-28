@@ -1,5 +1,3 @@
-from imp import reload
-from xml.etree.ElementTree import Comment
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -9,12 +7,14 @@ from django.views.generic import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CommentForm,  PostForm, AccountForm
-from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Commenter, Follow, Post,Stream, Tag, Like
 from user_profile.models import Profile, UserComment
 import json
 from django.http import HttpResponseBadRequest, JsonResponse
+from django.db.models import Q
+import random
 # Create your views here.
 @login_required(login_url='post:login')
 def index(request):
@@ -22,12 +22,22 @@ def index(request):
     posts       = Stream.objects.all().filter(user=user)
     comments    = UserComment.objects.all()
     profile_pics = Profile.objects.all()
+    # Suggestions Friends
+    this_user = Profile.objects.all().exclude(user = user)
+    suggestion_user = list(Profile.objects.all().exclude(user=user))
+    random_user = random.sample(suggestion_user, 3)
+    # Suggestions Posts
+    pl = Post.objects.all().filter(user=user).count()
+    suggestion_post = list(Post.objects.all().filter(likes__gte=2))
+    random_post = random.sample(suggestion_post, 4)
     group_ids   = []
     for post in posts:
         group_ids.append(post.post_id)
     post_iteams = Post.objects.filter(id__in=group_ids).all().order_by('-posted')
     context = { 
         "post_iteams":post_iteams,
+        "random_post":random_post,
+        "random_user":random_user,
         'comments':comments,
         'profile_pics':profile_pics,
 
@@ -162,7 +172,7 @@ def post(request,id):
     user = request.user
     post =Post.objects.get(id=id)
     if request.method=="POST":
-        comment= Comment.objects.create(user= user,post=post,body=request.POST.get("comment"))
+        comment= UserComment.objects.create(user= user,post=post,body=request.POST.get("comment"))
         comment.save()
     context = {"comment":comment}
     next = request.POST.get('next','/')   

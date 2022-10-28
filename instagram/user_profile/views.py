@@ -1,14 +1,17 @@
 from django.http import HttpResponseRedirect
 from django.db import transaction
-from .models import Profile
+from django.db.models import Q
+from django.utils import timezone
 from django.contrib import messages
-from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.models import User
+from django.shortcuts import redirect, render, get_object_or_404
 from django.core.paginator import Paginator
 from django.urls import resolve, reverse
 from post.models import Post,Stream, Follow
+from .models import Profile
 from .forms import *
 import random
+
 
 
 def UserProfile(request,username):
@@ -29,15 +32,19 @@ def UserProfile(request,username):
     page_number =request.GET.get('page')
     posts_paginator = paginator.get_page(page_number)
     # Suggestions Friends
-    suggestion_user = list(Profile.objects.all())
-    random_items = random.sample(suggestion_user, 3)
+    # uf = Follow.objects.all().filter(follower=user).count()
+    # suggestion_user = list(Profile.objects.all())
+    # random_user = random.sample(suggestion_user, 3)
     # Suggestions Posts
-
+    # pl = Post.objects.all().filter(user=user).count()
+    # suggestion_post = list(Post.objects.all().filter(posted=timezone.now()))
+    # random_post = random.sample(suggestion_post, 3)
     context = {
         'posts_paginator':posts_paginator,
         'posts':posts,
         'post':post,
-        'random_items':random_items,
+        # 'random_user':random_user,
+        # 'random_post':random_post,
         'profile':profile,
         'user':user,
         'following':following,
