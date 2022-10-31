@@ -65,20 +65,6 @@ def UserProfile(request,id):
 def Chat(request):
     return render(request,"chat.html")
 
-# def Register(request):
-#     if request.user.is_authenticated:
-#         return redirect('post:home')
-#     else:
-#         form = UserCreationForm()
-#         if request.method=='POST':
-#             form = UserCreationForm(request.POST)
-#             if form.is_valid():
-#                 form.save
-#                 return redirect("post:login")
-#             else:
-#                 messages.error(request, 'Invalid User form')
-#         context = {"form":form}
-#         return render(request,"register.html",context)
 
 def CreatAccount(request):
     form = AccountForm()
@@ -245,6 +231,22 @@ def Posts(request):
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')
+
+def Explore(request):
+    user = request.user
+    # Suggestions Friends
+    this_user = Profile.objects.all().exclude(user = user)
+    suggestion_user = list(Profile.objects.all().exclude(user=user))
+    random_user = random.sample(suggestion_user, 5)
+    # Suggestions Posts
+    pl = Post.objects.all().filter(user=user).count()
+    suggestion_post = list(Post.objects.all())
+    random_post = random.sample(suggestion_post, 5)
+    context = {
+        "random_post":random_post,
+        "random_user":random_user,
+    }
+    return render(request,"explore.html", context)
 
 # def AddComment(request,id):
 #     user = request.user.id

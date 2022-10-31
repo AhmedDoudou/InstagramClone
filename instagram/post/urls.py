@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, CreatAccount, Login, Logout, Chat, Trending, Posts, PostCreate,comment, PostEdit, DetailPost, AddLike
+from .views import index,Explore, CreatAccount, Login, Logout, Chat, Trending, Posts, PostCreate,comment, PostEdit, DetailPost, AddLike
 from user_profile.views import UserProfile
 
 
@@ -14,6 +14,7 @@ urlpatterns = [
     path('chat/', Chat, name='chat'),
     path('trending/', Trending, name='trending'),
     path('test/', Posts, name='test'),
+    path('explore/', Explore, name='explore'),
     # POST
     path('create/', PostCreate, name='create'),
     path('edit/<str:id>/', PostEdit, name='edit'),
